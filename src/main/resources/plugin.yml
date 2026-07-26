@@ -1,0 +1,36 @@
+name: RPGEconomy
+version: 1.0.0
+main: io.github.ilongake.ribboneconomy.RPGEconomyPlugin
+api-version: '1.21'
+author: ilongake
+description: RPG Economy Plugin
+
+commands:
+  money:
+    description: 自分の所持金を確認します
+    usage: /money
+
+  pay:
+    description: 他のプレイヤーにお金を送ります
+    usage: /pay <プレイヤー> <金額>
+
+  balancetop:
+    description: 所持金ランキングを表示します
+    usage: /balancetop
+
+  job:
+    description: 職業を管理します
+    usage: /job
+
+  exchange:
+    description: 100円をエメラルド1個に交換します
+    usage: /exchange
+
+  quest:
+    description: 依頼システム
+    usage: /quest
+
+  commands:
+    money:
+      description: お金を操作するコマンド
+      usage: /money give <プレイヤー> <金額>
