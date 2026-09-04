@@ -16,7 +16,6 @@ public class DataManager {
     private final File file;
     private final FileConfiguration config;
 
-    // メモリ上のプレイヤーデータ
     private final Map<UUID, PlayerData> players = new HashMap<>();
 
     public DataManager(JavaPlugin plugin) {
@@ -47,13 +46,11 @@ public class DataManager {
 
         String path = uuid.toString();
 
-        // 残高を読み込む
         double balance = config.getDouble(
                 path + ".balance",
                 1000
         );
 
-        // 職業を読み込む
         String jobName = config.getString(
                 path + ".job",
                 "NONE"
@@ -67,18 +64,37 @@ public class DataManager {
 
         } catch (IllegalArgumentException e) {
 
-            // 存在しない職業なら無職
             jobType = JobType.NONE;
         }
 
-        // PlayerDataを作成
         PlayerData data = new PlayerData(
                 balance,
                 jobType
         );
 
-        // メモリに保存
-        players.put(uuid, data);
+        /*
+         * 職業ごとの進行度を読み込む
+         *
+         * 古いplayers.ymlには存在しないので、
+         * 存在しない場合は0になる。
+         */
+        for (JobType job : JobType.values()) {
+
+            long progress = config.getLong(
+                    path + ".job-progress." + job.name(),
+                    0
+            );
+
+            data.setJobProgress(
+                    job,
+                    progress
+            );
+        }
+
+        players.put(
+                uuid,
+                data
+        );
     }
 
     /**
@@ -94,17 +110,26 @@ public class DataManager {
 
         String path = uuid.toString();
 
-        // 残高を保存
+        // 残高
         config.set(
                 path + ".balance",
                 data.getBalance()
         );
 
-        // 職業を保存
+        // 職業
         config.set(
                 path + ".job",
                 data.getJobType().name()
         );
+
+        // 職業ごとの進行度
+        for (JobType job : JobType.values()) {
+
+            config.set(
+                    path + ".job-progress." + job.name(),
+                    data.getJobProgress(job)
+            );
+        }
 
         save();
     }
@@ -196,8 +221,6 @@ public class DataManager {
 
     /**
      * 安全に残高を引き出す
-     *
-     * @return 引き出しに成功した場合 true
      */
     public boolean withdraw(
             UUID uuid,
@@ -206,22 +229,18 @@ public class DataManager {
 
         PlayerData data = players.get(uuid);
 
-        // プレイヤーデータが存在しない
         if (data == null) {
             return false;
         }
 
-        // 0以下の金額は無効
         if (amount <= 0) {
             return false;
         }
 
-        // 残高不足
         if (data.getBalance() < amount) {
             return false;
         }
 
-        // 残高を減らす
         data.setBalance(
                 data.getBalance() - amount
         );

@@ -2,6 +2,7 @@ package io.github.ilongake.ribboneconomy.listener;
 
 import io.github.ilongake.ribboneconomy.core.DataManager;
 import io.github.ilongake.ribboneconomy.core.PlayerData;
+import io.github.ilongake.ribboneconomy.job.JobManager;
 import io.github.ilongake.ribboneconomy.job.JobType;
 
 import org.bukkit.Material;
@@ -20,6 +21,7 @@ import java.util.Map;
 public class BlockBreakListener implements Listener {
 
     private final DataManager dataManager;
+    private final JobManager jobManager;
 
     // 採掘師の報酬
     private final Map<Material, Double> miningRewards =
@@ -33,13 +35,13 @@ public class BlockBreakListener implements Listener {
     private final Map<Material, Double> lumberjackRewards =
             new HashMap<>();
 
-
     public BlockBreakListener(
-            DataManager dataManager
+            DataManager dataManager,
+            JobManager jobManager
     ) {
 
         this.dataManager = dataManager;
-
+        this.jobManager = jobManager;
 
         // =========================
         // 採掘師の報酬
@@ -125,7 +127,6 @@ public class BlockBreakListener implements Listener {
                 10.0
         );
 
-
         // =========================
         // 農家の報酬
         // =========================
@@ -164,7 +165,6 @@ public class BlockBreakListener implements Listener {
                 Material.SWEET_BERRY_BUSH,
                 2.0
         );
-
 
         // =========================
         // 木こりの報酬
@@ -281,7 +281,6 @@ public class BlockBreakListener implements Listener {
         );
     }
 
-
     @EventHandler
     public void onBlockBreak(
             BlockBreakEvent event
@@ -290,27 +289,28 @@ public class BlockBreakListener implements Listener {
         Player player =
                 event.getPlayer();
 
+        // =========================
+        // プレイヤーデータ取得
+        // =========================
 
-        // プレイヤーデータを取得
         PlayerData data =
                 dataManager.getPlayerData(
                         player.getUniqueId()
                 );
 
-
-        // データがない場合
         if (data == null) {
             return;
         }
 
-
+        // =========================
         // 壊したブロック
+        // =========================
+
         Block block =
                 event.getBlock();
 
         Material material =
                 block.getType();
-
 
         // =========================
         // 採掘師
@@ -328,7 +328,6 @@ public class BlockBreakListener implements Listener {
             return;
         }
 
-
         // =========================
         // 農家
         // =========================
@@ -345,7 +344,6 @@ public class BlockBreakListener implements Listener {
             return;
         }
 
-
         // =========================
         // 木こり
         // =========================
@@ -361,9 +359,10 @@ public class BlockBreakListener implements Listener {
         }
     }
 
-
     /**
+     * =========================
      * 採掘師の処理
+     * =========================
      */
     private void handleMining(
             Player player,
@@ -378,13 +377,14 @@ public class BlockBreakListener implements Listener {
             return;
         }
 
-
         ItemStack tool =
                 player.getInventory()
                         .getItemInMainHand();
 
-
+        // =========================
         // シルクタッチなら報酬なし
+        // =========================
+
         if (tool.containsEnchantment(
                 Enchantment.SILK_TOUCH
         )) {
@@ -392,6 +392,9 @@ public class BlockBreakListener implements Listener {
             return;
         }
 
+        // =========================
+        // 実際のドロップ数を取得
+        // =========================
 
         int dropAmount = 0;
 
@@ -405,22 +408,26 @@ public class BlockBreakListener implements Listener {
                     drop.getAmount();
         }
 
-
         if (dropAmount <= 0) {
             return;
         }
 
+        // =========================
+        // 報酬計算
+        // =========================
 
         double totalReward =
                 rewardPerItem
                         * dropAmount;
-
 
         dataManager.addBalance(
                 player.getUniqueId(),
                 totalReward
         );
 
+        // =========================
+        // 通知
+        // =========================
 
         player.sendMessage(
                 "§a採掘報酬: §e+"
@@ -431,9 +438,10 @@ public class BlockBreakListener implements Listener {
         );
     }
 
-
     /**
+     * =========================
      * 農家の処理
+     * =========================
      */
     private void handleFarming(
             Player player,
@@ -444,13 +452,14 @@ public class BlockBreakListener implements Listener {
         Double rewardPerItem =
                 farmingRewards.get(material);
 
-
         if (rewardPerItem == null) {
             return;
         }
 
-
+        // =========================
         // 成長状態を確認
+        // =========================
+
         if (block.getBlockData()
                 instanceof Ageable ageable) {
 
@@ -461,14 +470,19 @@ public class BlockBreakListener implements Listener {
             }
         }
 
+        // =========================
+        // 使用しているツール
+        // =========================
 
         ItemStack tool =
                 player.getInventory()
                         .getItemInMainHand();
 
+        // =========================
+        // 実際のドロップ数を取得
+        // =========================
 
         int dropAmount = 0;
-
 
         for (ItemStack drop :
                 block.getDrops(
@@ -480,22 +494,82 @@ public class BlockBreakListener implements Listener {
                     drop.getAmount();
         }
 
-
         if (dropAmount <= 0) {
             return;
         }
 
+        // =========================
+        // 報酬計算
+        // =========================
 
         double totalReward =
                 rewardPerItem
                         * dropAmount;
 
+        // =========================
+        // 農民の活動数を追加
+        //
+        // 実際に収穫した個数を
+        // そのままカウントする
+        // =========================
+
+        int oldLevel =
+                jobManager.getJobLevel(
+                        player.getUniqueId(),
+                        JobType.FARMER
+                );
+
+        jobManager.addJobProgress(
+                player.getUniqueId(),
+                JobType.FARMER,
+                dropAmount
+        );
+
+        int newLevel =
+                jobManager.getJobLevel(
+                        player.getUniqueId(),
+                        JobType.FARMER
+                );
+
+        // =========================
+        // お金を追加
+        // =========================
 
         dataManager.addBalance(
                 player.getUniqueId(),
                 totalReward
         );
 
+        // =========================
+        // レベルアップ通知
+        // =========================
+
+        if (newLevel > oldLevel) {
+
+            player.sendMessage("");
+
+            player.sendMessage(
+                    "§6§l職業レベルアップ！"
+            );
+
+            player.sendMessage(
+                    "§e農家 §fLv."
+                            + oldLevel
+                            + " §7→ §aLv."
+                            + newLevel
+            );
+
+            player.sendMessage(
+                    "§7農民としての活動を続けて"
+                            + "さらにレベルを上げよう！"
+            );
+
+            player.sendMessage("");
+        }
+
+        // =========================
+        // 報酬通知
+        // =========================
 
         player.sendMessage(
                 "§a農家報酬: §e+"
@@ -506,9 +580,10 @@ public class BlockBreakListener implements Listener {
         );
     }
 
-
     /**
+     * =========================
      * 木こりの処理
+     * =========================
      */
     private void handleLumberjack(
             Player player,
@@ -516,25 +591,30 @@ public class BlockBreakListener implements Listener {
             Material material
     ) {
 
+        // =========================
         // 報酬設定がないブロックは無視
+        // =========================
+
         Double rewardPerItem =
                 lumberjackRewards.get(material);
-
 
         if (rewardPerItem == null) {
             return;
         }
 
-
+        // =========================
         // 使用しているツール
+        // =========================
+
         ItemStack tool =
                 player.getInventory()
                         .getItemInMainHand();
 
-
+        // =========================
         // 実際のドロップ数を取得
-        int dropAmount = 0;
+        // =========================
 
+        int dropAmount = 0;
 
         for (ItemStack drop :
                 block.getDrops(
@@ -546,27 +626,35 @@ public class BlockBreakListener implements Listener {
                     drop.getAmount();
         }
 
-
+        // =========================
         // ドロップがない場合
+        // =========================
+
         if (dropAmount <= 0) {
             return;
         }
 
-
+        // =========================
         // 報酬計算
+        // =========================
+
         double totalReward =
                 rewardPerItem
                         * dropAmount;
 
-
+        // =========================
         // お金を追加
+        // =========================
+
         dataManager.addBalance(
                 player.getUniqueId(),
                 totalReward
         );
 
-
+        // =========================
         // 通知
+        // =========================
+
         player.sendMessage(
                 "§a木こり報酬: §e+"
                         + totalReward

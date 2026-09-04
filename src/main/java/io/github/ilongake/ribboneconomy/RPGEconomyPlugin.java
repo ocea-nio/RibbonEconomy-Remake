@@ -5,10 +5,18 @@ import io.github.ilongake.ribboneconomy.command.ExchangeCommand;
 import io.github.ilongake.ribboneconomy.command.MoneyCommand;
 import io.github.ilongake.ribboneconomy.command.PayCommand;
 import io.github.ilongake.ribboneconomy.core.DataManager;
+import io.github.ilongake.ribboneconomy.farmer.FarmerTradeCommand;
+import io.github.ilongake.ribboneconomy.farmer.FarmerTradeGUI;
+import io.github.ilongake.ribboneconomy.farmer.FarmerTradeListener;
+import io.github.ilongake.ribboneconomy.farmer.FarmerTradeManager;
+import io.github.ilongake.ribboneconomy.farmer.FoodBuffKeys;
+import io.github.ilongake.ribboneconomy.farmer.FoodBuffManager;
+import io.github.ilongake.ribboneconomy.farmer.FoodBuffListener;
 import io.github.ilongake.ribboneconomy.gui.JobListener;
 import io.github.ilongake.ribboneconomy.gui.MoneyListener;
 import io.github.ilongake.ribboneconomy.gui.QuestCreateListener;
 import io.github.ilongake.ribboneconomy.gui.RPGMenuListener;
+import io.github.ilongake.ribboneconomy.job.JobAdminCommand;
 import io.github.ilongake.ribboneconomy.job.JobCommand;
 import io.github.ilongake.ribboneconomy.job.JobManager;
 import io.github.ilongake.ribboneconomy.listener.BlockBreakListener;
@@ -19,6 +27,9 @@ import io.github.ilongake.ribboneconomy.listener.PlayerQuitListener;
 import io.github.ilongake.ribboneconomy.listener.VillagerShopListener;
 import io.github.ilongake.ribboneconomy.quest.QuestCommand;
 import io.github.ilongake.ribboneconomy.quest.QuestManager;
+import io.github.ilongake.ribboneconomy.slot.GiveSlotCommand;
+import io.github.ilongake.ribboneconomy.slot.SlotMachineListener;
+
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class RPGEconomyPlugin extends JavaPlugin {
@@ -28,6 +39,15 @@ public final class RPGEconomyPlugin extends JavaPlugin {
     private JobManager jobManager;
 
     private QuestManager questManager;
+
+    private FarmerTradeManager farmerTradeManager;
+
+    private FarmerTradeGUI farmerTradeGUI;
+
+    /**
+     * 農民特殊食料・Lv.50パッシブ管理
+     */
+    private FoodBuffManager foodBuffManager;
 
 
     @Override
@@ -42,6 +62,81 @@ public final class RPGEconomyPlugin extends JavaPlugin {
 
 
         // =========================
+        // JobManager
+        // =========================
+
+        jobManager =
+                new JobManager(
+                        dataManager
+                );
+
+        FoodBuffKeys.initialize(this);
+
+        foodBuffManager =
+                new FoodBuffManager(
+                        jobManager
+                );
+        // =========================================================
+// 農民特殊食料Listener
+// =========================================================
+//
+// ・Lv.20以上でクラフト時に特殊食料化
+// ・特殊食料を食べた時に効果発動
+// =========================================================
+
+        getServer()
+                .getPluginManager()
+                .registerEvents(
+                        new FoodBuffListener(
+                                foodBuffManager
+                        ),
+                        this
+                );
+
+        jobManager.setFoodBuffManager(
+                foodBuffManager
+        );
+
+
+        // =========================
+        // Farmer Trade
+        // =========================
+
+        farmerTradeManager =
+                new FarmerTradeManager(
+                        this,
+                        dataManager,
+                        jobManager
+                );
+
+        farmerTradeGUI =
+                new FarmerTradeGUI(
+                        farmerTradeManager
+                );
+
+        FarmerTradeListener farmerTradeListener =
+                new FarmerTradeListener(
+                        this,
+                        farmerTradeManager,
+                        farmerTradeGUI
+                );
+
+        getServer()
+                .getPluginManager()
+                .registerEvents(
+                        farmerTradeListener,
+                        this
+                );
+
+        getCommand("market").setExecutor(
+                new FarmerTradeCommand(
+                        farmerTradeManager,
+                        farmerTradeGUI
+                )
+        );
+
+
+        // =========================
         // 村人ショップ
         // =========================
 
@@ -52,16 +147,6 @@ public final class RPGEconomyPlugin extends JavaPlugin {
                                 dataManager
                         ),
                         this
-                );
-
-
-        // =========================
-        // JobManager
-        // =========================
-
-        jobManager =
-                new JobManager(
-                        dataManager
                 );
 
 
@@ -166,6 +251,18 @@ public final class RPGEconomyPlugin extends JavaPlugin {
 
 
         // =========================
+        // 職業管理者コマンド
+        // =========================
+
+        getCommand("jobadmin").setExecutor(
+                new JobAdminCommand(
+                        jobManager,
+                        dataManager
+                )
+        );
+
+
+        // =========================
         // エメラルド交換
         // =========================
 
@@ -191,12 +288,16 @@ public final class RPGEconomyPlugin extends JavaPlugin {
         // =========================
         // ログインイベント
         // =========================
+        //
+        // ログイン時にLv.50パッシブを自動更新
+        // =========================
 
         getServer()
                 .getPluginManager()
                 .registerEvents(
                         new PlayerJoinListener(
-                                dataManager
+                                dataManager,
+                                foodBuffManager
                         ),
                         this
                 );
@@ -224,7 +325,8 @@ public final class RPGEconomyPlugin extends JavaPlugin {
                 .getPluginManager()
                 .registerEvents(
                         new BlockBreakListener(
-                                dataManager
+                                dataManager,
+                                jobManager
                         ),
                         this
                 );
@@ -260,6 +362,30 @@ public final class RPGEconomyPlugin extends JavaPlugin {
 
 
         // =========================
+        // スロットマシン
+        // =========================
+
+        SlotMachineListener slotMachineListener =
+                new SlotMachineListener(
+                        this,
+                        dataManager
+                );
+
+        getServer()
+                .getPluginManager()
+                .registerEvents(
+                        slotMachineListener,
+                        this
+                );
+
+        getCommand("giveslot").setExecutor(
+                new GiveSlotCommand(
+                        slotMachineListener
+                )
+        );
+
+
+        // =========================
         // 起動メッセージ
         // =========================
 
@@ -273,7 +399,17 @@ public final class RPGEconomyPlugin extends JavaPlugin {
     public void onDisable() {
 
         // =========================
-        // 全プレイヤーデータを保存
+        // Farmer Trade保存
+        // =========================
+
+        if (farmerTradeManager != null) {
+
+            farmerTradeManager.shutdown();
+        }
+
+
+        // =========================
+        // 全プレイヤーデータ保存
         // =========================
 
         if (dataManager != null) {
@@ -291,7 +427,7 @@ public final class RPGEconomyPlugin extends JavaPlugin {
 
 
         // =========================
-        // 依頼データを保存
+        // 依頼データ保存
         // =========================
 
         if (questManager != null) {
@@ -299,10 +435,13 @@ public final class RPGEconomyPlugin extends JavaPlugin {
             questManager.saveQuests();
         }
 
+
         // =========================
-// 停止メッセージ
-// =========================
+        // 停止メッセージ
+        // =========================
 
         getLogger().info(
                 "RPGEconomyが停止しました！"
-        );}}
+        );
+    }
+}

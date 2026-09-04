@@ -6,6 +6,7 @@ author: ilongake
 description: RPG Economy Plugin
 
 commands:
+
   money:
     description: 自分の所持金を確認します
     usage: /money
@@ -30,7 +31,22 @@ commands:
     description: 依頼システム
     usage: /quest
 
-  commands:
-    money:
-      description: お金を操作するコマンド
-      usage: /money give <プレイヤー> <金額>
+  giveslot:
+    description: スロットマシン看板を配布します
+    usage: /giveslot [player]
+    permission: slotmachine.give
+
+  jobadmin:
+    description: 職業を管理します
+    usage: /jobadmin level <プレイヤー> <職業> <レベル>
+
+  market:
+    description: 農家マーケットを開きます
+    usage: /market
+
+
+permissions:
+
+  slotmachine.give:
+    description: スロットマシン看板を配布する権限
+    default: op
