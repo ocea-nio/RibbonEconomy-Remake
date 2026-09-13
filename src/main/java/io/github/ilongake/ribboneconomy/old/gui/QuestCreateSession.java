@@ -1,4 +1,4 @@
-package io.github.ilongake.ribboneconomy.quest;
+package io.github.ilongake.ribboneconomy.gui;
 
 import java.util.HashMap;
 import java.util.Map;

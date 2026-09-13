@@ -174,6 +174,8 @@ public class FarmerTradeListener implements Listener {
                 return;
             }
 
+
+            // TradeManagerのTradeをArrayList形式で取得 -> Collection<trade>
             List<FarmerTradeManager.Trade> trades =
                     tradeManager.getTrades();
 

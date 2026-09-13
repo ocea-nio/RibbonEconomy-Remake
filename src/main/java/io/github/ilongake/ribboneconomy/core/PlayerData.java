@@ -8,7 +8,6 @@ import java.util.Map;
 
 public class PlayerData {
 
-    private double balance;
 
     private JobType jobType;
 
@@ -26,9 +25,8 @@ public class PlayerData {
     /**
      * 新規プレイヤー用
      */
-    public PlayerData(double balance) {
+    public PlayerData() {
 
-        this.balance = balance;
         this.jobType = JobType.NONE;
 
         this.jobProgress =
@@ -38,14 +36,12 @@ public class PlayerData {
     }
 
     /**
-     * 残高・職業を指定して作成
+     * 職業を指定して作成
      */
     public PlayerData(
-            double balance,
             JobType jobType
     ) {
 
-        this.balance = balance;
         this.jobType = jobType;
 
         this.jobProgress =
@@ -66,22 +62,6 @@ public class PlayerData {
                     0L
             );
         }
-    }
-
-    /**
-     * 残高取得
-     */
-    public double getBalance() {
-
-        return balance;
-    }
-
-    /**
-     * 残高設定
-     */
-    public void setBalance(double balance) {
-
-        this.balance = balance;
     }
 
     /**

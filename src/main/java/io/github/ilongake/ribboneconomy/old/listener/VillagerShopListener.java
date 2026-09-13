@@ -31,7 +31,6 @@ public class VillagerShopListener implements Listener {
                 dataManager;
     }
 
-
     /*
      * =========================
      * 無職の村人を右クリック
@@ -53,18 +52,14 @@ public class VillagerShopListener implements Listener {
         Villager villager =
                 (Villager) event.getRightClicked();
 
-
         // 無職の村人以外は無視
         if (villager.getProfession()
                 != Villager.Profession.NONE) {
-
             return;
         }
 
-
         Player player =
                 event.getPlayer();
-
 
         // 通常の村人交易を開かない
         event.setCancelled(true);
@@ -245,7 +240,6 @@ public class VillagerShopListener implements Listener {
 
             return;
         }
-
 
         /*
          * =========================

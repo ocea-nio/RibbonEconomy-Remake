@@ -46,11 +46,6 @@ public class DataManager {
 
         String path = uuid.toString();
 
-        double balance = config.getDouble(
-                path + ".balance",
-                1000
-        );
-
         String jobName = config.getString(
                 path + ".job",
                 "NONE"
@@ -68,7 +63,6 @@ public class DataManager {
         }
 
         PlayerData data = new PlayerData(
-                balance,
                 jobType
         );
 
@@ -110,12 +104,6 @@ public class DataManager {
 
         String path = uuid.toString();
 
-        // 残高
-        config.set(
-                path + ".balance",
-                data.getBalance()
-        );
-
         // 職業
         config.set(
                 path + ".job",
@@ -151,108 +139,9 @@ public class DataManager {
     }
 
     /**
-     * 残高取得
-     */
-    public double getBalance(UUID uuid) {
-
-        PlayerData data = players.get(uuid);
-
-        if (data == null) {
-            return 0;
-        }
-
-        return data.getBalance();
-    }
-
-    /**
-     * 残高設定
-     */
-    public void setBalance(
-            UUID uuid,
-            double amount
-    ) {
-
-        PlayerData data = players.get(uuid);
-
-        if (data == null) {
-            return;
-        }
-
-        data.setBalance(amount);
-    }
-
-    /**
-     * 残高追加
-     */
-    public void addBalance(
-            UUID uuid,
-            double amount
-    ) {
-
-        PlayerData data = players.get(uuid);
-
-        if (data == null) {
-            return;
-        }
-
-        data.setBalance(
-                data.getBalance() + amount
-        );
-    }
-
-    /**
-     * 残高減算
-     */
-    public void removeBalance(
-            UUID uuid,
-            double amount
-    ) {
-
-        PlayerData data = players.get(uuid);
-
-        if (data == null) {
-            return;
-        }
-
-        data.setBalance(
-                data.getBalance() - amount
-        );
-    }
-
-    /**
-     * 安全に残高を引き出す
-     */
-    public boolean withdraw(
-            UUID uuid,
-            double amount
-    ) {
-
-        PlayerData data = players.get(uuid);
-
-        if (data == null) {
-            return false;
-        }
-
-        if (amount <= 0) {
-            return false;
-        }
-
-        if (data.getBalance() < amount) {
-            return false;
-        }
-
-        data.setBalance(
-                data.getBalance() - amount
-        );
-
-        return true;
-    }
-
-    /**
      * 全プレイヤーのデータを取得
      */
     public Map<UUID, PlayerData> getAllPlayers() {
-
         return players;
     }
 
@@ -262,7 +151,6 @@ public class DataManager {
     public void save() {
 
         try {
-
             config.save(file);
 
         } catch (IOException e) {

@@ -1,25 +1,20 @@
-package io.github.ilongake.ribboneconomy.command;
+package io.github.ilongake.ribboneconomy.feature.command;
 
-import io.github.ilongake.ribboneconomy.core.DataManager;
-import io.github.ilongake.ribboneconomy.core.PlayerData;
+import io.github.ilongake.ribboneconomy.core.EconomyService;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class BalanceTopCommand implements CommandExecutor {
 
-    private final DataManager dataManager;
+    private final EconomyService economy;
 
-    public BalanceTopCommand(DataManager dataManager) {
-        this.dataManager = dataManager;
+    public BalanceTopCommand(EconomyService economy) {
+        this.economy = economy;
     }
 
     @Override
@@ -30,20 +25,19 @@ public class BalanceTopCommand implements CommandExecutor {
             String[] args
     ) {
 
-        // 全プレイヤーのデータを取得
-        Map<UUID, PlayerData> players =
-                dataManager.getAllPlayers();
+
+
 
         // ランキング用のリストを作成
-        List<Map.Entry<UUID, PlayerData>> ranking =
-                new ArrayList<>(players.entrySet());
+        List<OfflinePlayer> ranking =
+                new ArrayList<>(Arrays.asList(Bukkit.getOfflinePlayers()));
+
+
 
         // 残高が多い順に並べる
         ranking.sort(
-                Map.Entry.<UUID, PlayerData>comparingByValue(
-                        Comparator.comparingDouble(
-                                PlayerData::getBalance
-                        )
+                Comparator.comparingDouble(
+                        (OfflinePlayer player) -> economy.getBalance(player)
                 ).reversed()
         );
 
@@ -55,17 +49,13 @@ public class BalanceTopCommand implements CommandExecutor {
 
         for (int i = 0; i < limit; i++) {
 
-            Map.Entry<UUID, PlayerData> entry =
-                    ranking.get(i);
-
-            UUID uuid = entry.getKey();
-
+            OfflinePlayer player = ranking.get(i);
             double balance =
-                    entry.getValue().getBalance();
+                    economy.getBalance(player);
 
-            // UUIDからプレイヤー名を取得
+            //プレイヤー名を取得
             String playerName =
-                    Bukkit.getOfflinePlayer(uuid).getName();
+                    player.getName();
 
             if (playerName == null) {
                 playerName = "Unknown";

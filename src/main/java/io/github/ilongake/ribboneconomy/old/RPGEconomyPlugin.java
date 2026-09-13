@@ -1,6 +1,6 @@
-package io.github.ilongake.ribboneconomy;
+package io.github.ilongake.ribboneconomy.old;
 
-import io.github.ilongake.ribboneconomy.command.BalanceTopCommand;
+import io.github.ilongake.ribboneconomy.feature.command.BalanceTopCommand;
 import io.github.ilongake.ribboneconomy.command.ExchangeCommand;
 import io.github.ilongake.ribboneconomy.command.MoneyCommand;
 import io.github.ilongake.ribboneconomy.command.PayCommand;
@@ -221,11 +221,6 @@ public final class RPGEconomyPlugin extends JavaPlugin {
                 )
         );
 
-        getCommand("balancetop").setExecutor(
-                new BalanceTopCommand(
-                        dataManager
-                )
-        );
 
 
         // =========================

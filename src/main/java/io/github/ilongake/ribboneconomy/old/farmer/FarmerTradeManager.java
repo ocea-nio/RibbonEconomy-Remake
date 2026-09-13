@@ -117,16 +117,6 @@ public class FarmerTradeManager {
      */
 
     /**
-     * マーケットを閲覧・購入できるか。
-     *
-     * 全職業・全レベルで可能。
-     */
-    public boolean canUseMarket(UUID uuid) {
-
-        return uuid != null;
-    }
-
-    /**
      * ファーマーLv.10以上か確認。
      *
      * 出品・最低保証売買に使用する。
@@ -293,7 +283,7 @@ public class FarmerTradeManager {
     }
 
     public synchronized List<Trade> getTrades() {
-
+        //Collection<Trade>
         return new ArrayList<>(
                 trades.values()
         );
@@ -413,16 +403,6 @@ public class FarmerTradeManager {
         if (buyer == null
                 || tradeId == null) {
 
-            return false;
-        }
-
-        /*
-         * ここでは isUnlocked() を使用しない。
-         *
-         * ファーマーLv.10未満や
-         * ハンターでも購入可能。
-         */
-        if (!canUseMarket(buyer)) {
             return false;
         }
 
