@@ -1,7 +1,13 @@
 package io.github.ilongake.ribboneconomy.feature.jobs;
 
+import org.bukkit.Material;
+import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Monster;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -31,12 +37,30 @@ public class RewardManager {
         }
         config = YamlConfiguration.loadConfiguration(file);
     }
-    public Map<String,Double> getReward(JobType type){
-        Map<String,Double> jobsRewards = new HashMap<>();
-        String path =
-                "JobsReward."
-                        + type.name().toLowerCase();
-
-        return
+    public Map<Material,Double> getBreakReward(JobType type){
+        Map<Material, Double> rewards = new HashMap<>();
+        String path = "JobsReward." + type.name().toUpperCase();
+        ConfigurationSection section = config.getConfigurationSection(path);
+        if (section == null) {
+            return rewards;
+        }
+        for (String block : section.getKeys(false)) {
+            double amount = section.getDouble(block + ".amount");
+            rewards.put(Material.matchMaterial(block), amount);
+        }
+        return rewards;
+    }
+    public Map<EntityType,Double> getKillReward(JobType type){
+        Map<EntityType, Double> rewards = new HashMap<>();
+        String path = "JobsReward." + type.name().toUpperCase();
+        ConfigurationSection section = config.getConfigurationSection(path);
+        if (section == null) {
+            return rewards;
+        }
+        for (String entity : section.getKeys(false)) {
+            double amount = section.getDouble(entity + ".amount");
+            rewards.put(EntityType.fromName(entity), amount);
+        }
+        return rewards;
     }
 }

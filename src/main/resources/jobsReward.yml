@@ -19,6 +19,19 @@ JobsReward:
   hunter:
   #木こり
   lumberjack:
+    oak_log:
+      amount: 5.0
+    oak_wood:
+      amount: 5.0
+    birch_log:
+      amount: 5.0
+    birch_wood:
+      amount: 5.0
+    spruce_log:
+      amount: 5.0
+    spruce_wood:
+      amount: 5.0
+
   #鉱夫
   miner:
     #normal
