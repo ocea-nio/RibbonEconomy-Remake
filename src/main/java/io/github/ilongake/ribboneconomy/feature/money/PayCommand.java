@@ -1,19 +1,18 @@
-package io.github.ilongake.ribboneconomy.command;
+package io.github.ilongake.ribboneconomy.feature.money;
 
-import io.github.ilongake.ribboneconomy.core.DataManager;
+import io.github.ilongake.ribboneconomy.core.EconomyService;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.ChatColor;
 
 public class PayCommand implements CommandExecutor {
 
-    private final DataManager dataManager;
+    private final EconomyService economy;
 
-    public PayCommand(DataManager dataManager) {
-        this.dataManager = dataManager;
+    public PayCommand(EconomyService economy) {
+        this.economy = economy;
     }
 
     @Override
@@ -23,31 +22,6 @@ public class PayCommand implements CommandExecutor {
             String label,
             String[] args
     ) {
-
-        if (command.getName().equalsIgnoreCase("money")) {
-
-            // OP以外は使用不可
-            if (!sender.isOp()) {
-
-                sender.sendMessage(
-                        ChatColor.RED
-                                + "このコマンドを使用する権限がありません。"
-                );
-
-                return true;
-            }
-
-
-            // /money give プレイヤー名 金額
-            if (args.length == 3
-                    && args[0].equalsIgnoreCase("give")) {
-
-                Player target =
-                        Bukkit.getPlayer(args[1]);
-
-                // 以下は今までのコード
-            }
-        }
 
         // プレイヤー以外が実行した場合
         if (!(sender instanceof Player player)) {
@@ -93,9 +67,7 @@ public class PayCommand implements CommandExecutor {
         }
 
         // 自分の残高を取得
-        double senderBalance = dataManager.getBalance(
-                player.getUniqueId()
-        );
+        double senderBalance = economy.getBalance(player.getUniqueId());
 
         // 残高不足
         if (senderBalance < amount) {
@@ -106,17 +78,8 @@ public class PayCommand implements CommandExecutor {
             return true;
         }
 
-        // 送金元からお金を減らす
-        dataManager.removeBalance(
-                player.getUniqueId(),
-                amount
-        );
-
-        // 送金先にお金を追加
-        dataManager.addBalance(
-                target.getUniqueId(),
-                amount
-        );
+        //送金する
+        economy.transfer(player.getUniqueId(),target.getUniqueId(),amount);
 
         // 送金したプレイヤーに通知
         player.sendMessage(

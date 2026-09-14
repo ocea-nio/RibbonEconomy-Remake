@@ -1,7 +1,5 @@
-package io.github.ilongake.ribboneconomy.gui;
+package io.github.ilongake.ribboneconomy.feature.jobs;
 
-import io.github.ilongake.ribboneconomy.job.JobManager;
-import io.github.ilongake.ribboneconomy.job.JobType;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;

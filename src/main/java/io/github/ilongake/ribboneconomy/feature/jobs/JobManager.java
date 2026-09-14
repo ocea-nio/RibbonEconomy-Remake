@@ -1,7 +1,6 @@
-package io.github.ilongake.ribboneconomy.job;
+package io.github.ilongake.ribboneconomy.feature.jobs;
 
 import io.github.ilongake.ribboneconomy.core.DataManager;
-import io.github.ilongake.ribboneconomy.core.PlayerData;
 import io.github.ilongake.ribboneconomy.farmer.FoodBuffManager;
 
 import org.bukkit.Bukkit;
@@ -127,7 +126,7 @@ public class JobManager {
             UUID uuid
     ) {
 
-        PlayerData data =
+        JobData data =
                 dataManager.getPlayerData(uuid);
 
         if (data == null) {
@@ -149,7 +148,7 @@ public class JobManager {
             JobType jobType
     ) {
 
-        PlayerData data =
+        JobData data =
                 dataManager.getPlayerData(uuid);
 
         if (data == null) {
@@ -237,7 +236,7 @@ public class JobManager {
             JobType jobType
     ) {
 
-        PlayerData data =
+        JobData data =
                 dataManager.getPlayerData(uuid);
 
         if (data == null) {
@@ -260,7 +259,7 @@ public class JobManager {
             UUID uuid
     ) {
 
-        PlayerData data =
+        JobData data =
                 dataManager.getPlayerData(uuid);
 
         if (data == null) {
@@ -282,7 +281,7 @@ public class JobManager {
             JobType jobType
     ) {
 
-        PlayerData data =
+        JobData data =
                 dataManager.getPlayerData(uuid);
 
         if (data == null) {
@@ -305,7 +304,7 @@ public class JobManager {
             UUID uuid
     ) {
 
-        PlayerData data =
+        JobData data =
                 dataManager.getPlayerData(uuid);
 
         if (data == null) {
@@ -333,7 +332,7 @@ public class JobManager {
             int level
     ) {
 
-        PlayerData data =
+        JobData data =
                 dataManager.getPlayerData(uuid);
 
         if (data == null) {
@@ -419,7 +418,7 @@ public class JobManager {
             long amount
     ) {
 
-        PlayerData data =
+        JobData data =
                 dataManager.getPlayerData(uuid);
 
         if (data == null) {
@@ -524,7 +523,7 @@ public class JobManager {
             UUID uuid
     ) {
 
-        PlayerData data =
+        JobData data =
                 dataManager.getPlayerData(uuid);
 
         if (data == null) {
@@ -550,7 +549,7 @@ public class JobManager {
             UUID uuid
     ) {
 
-        PlayerData data =
+        JobData data =
                 dataManager.getPlayerData(uuid);
 
         if (data == null) {

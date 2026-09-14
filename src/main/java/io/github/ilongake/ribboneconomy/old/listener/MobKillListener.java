@@ -2,7 +2,6 @@ package io.github.ilongake.ribboneconomy.listener;
 
 import io.github.ilongake.ribboneconomy.core.DataManager;
 import io.github.ilongake.ribboneconomy.core.PlayerData;
-import io.github.ilongake.ribboneconomy.job.JobType;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

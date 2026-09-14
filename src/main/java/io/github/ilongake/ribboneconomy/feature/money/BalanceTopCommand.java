@@ -1,4 +1,4 @@
-package io.github.ilongake.ribboneconomy.feature.command;
+package io.github.ilongake.ribboneconomy.feature.money;
 
 import io.github.ilongake.ribboneconomy.core.EconomyService;
 import org.bukkit.Bukkit;
@@ -24,10 +24,6 @@ public class BalanceTopCommand implements CommandExecutor {
             String label,
             String[] args
     ) {
-
-
-
-
         // ランキング用のリストを作成
         List<OfflinePlayer> ranking =
                 new ArrayList<>(Arrays.asList(Bukkit.getOfflinePlayers()));

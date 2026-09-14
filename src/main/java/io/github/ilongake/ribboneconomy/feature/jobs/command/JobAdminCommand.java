@@ -1,6 +1,8 @@
-package io.github.ilongake.ribboneconomy.job;
+package io.github.ilongake.ribboneconomy.feature.jobs.command;
 
 import io.github.ilongake.ribboneconomy.core.DataManager;
+import io.github.ilongake.ribboneconomy.feature.jobs.JobManager;
+import io.github.ilongake.ribboneconomy.feature.jobs.JobType;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;

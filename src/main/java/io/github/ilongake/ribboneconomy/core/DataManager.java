@@ -1,6 +1,7 @@
 package io.github.ilongake.ribboneconomy.core;
 
-import io.github.ilongake.ribboneconomy.job.JobType;
+import io.github.ilongake.ribboneconomy.feature.jobs.JobData;
+import io.github.ilongake.ribboneconomy.feature.jobs.JobType;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -16,7 +17,7 @@ public class DataManager {
     private final File file;
     private final FileConfiguration config;
 
-    private final Map<UUID, PlayerData> players = new HashMap<>();
+    private final Map<UUID, JobData> players = new HashMap<>();
 
     public DataManager(JavaPlugin plugin) {
 
@@ -62,7 +63,7 @@ public class DataManager {
             jobType = JobType.NONE;
         }
 
-        PlayerData data = new PlayerData(
+        JobData data = new JobData(
                 jobType
         );
 
@@ -96,7 +97,7 @@ public class DataManager {
      */
     public void savePlayer(UUID uuid) {
 
-        PlayerData data = players.get(uuid);
+        JobData data = players.get(uuid);
 
         if (data == null) {
             return;
@@ -126,14 +127,13 @@ public class DataManager {
      * メモリから削除
      */
     public void unloadPlayer(UUID uuid) {
-
         players.remove(uuid);
     }
 
     /**
      * PlayerData取得
      */
-    public PlayerData getPlayerData(UUID uuid) {
+    public JobData getPlayerData(UUID uuid) {
 
         return players.get(uuid);
     }
@@ -141,7 +141,7 @@ public class DataManager {
     /**
      * 全プレイヤーのデータを取得
      */
-    public Map<UUID, PlayerData> getAllPlayers() {
+    public Map<UUID, JobData> getAllPlayers() {
         return players;
     }
 

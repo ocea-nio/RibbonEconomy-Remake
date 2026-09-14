@@ -1,6 +1,6 @@
 package io.github.ilongake.ribboneconomy.farmer;
 
-import io.github.ilongake.ribboneconomy.job.JobManager;
+import io.github.ilongake.ribboneconomy.feature.jobs.JobManager;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

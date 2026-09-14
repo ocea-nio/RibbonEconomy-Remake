@@ -1,7 +1,6 @@
-package io.github.ilongake.ribboneconomy.gui;
+package io.github.ilongake.ribboneconomy.feature.jobs;
 
-import io.github.ilongake.ribboneconomy.job.JobManager;
-import io.github.ilongake.ribboneconomy.job.JobType;
+import io.github.ilongake.ribboneconomy.feature.mainmenu.RPGMenuGUI;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -9,12 +8,12 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
-public class JobListener
+public class JobGUIListener
         implements Listener {
 
     private final JobManager jobManager;
 
-    public JobListener(
+    public JobGUIListener(
             JobManager jobManager
     ) {
 

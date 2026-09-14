@@ -1,4 +1,4 @@
-package io.github.ilongake.ribboneconomy.job;
+package io.github.ilongake.ribboneconomy.feature.jobs;
 
 public enum JobType {
 

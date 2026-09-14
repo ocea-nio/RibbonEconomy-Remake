@@ -1,88 +1,32 @@
-package io.github.ilongake.ribboneconomy.core;
-
-import io.github.ilongake.ribboneconomy.job.JobLevel;
-import io.github.ilongake.ribboneconomy.job.JobType;
+package io.github.ilongake.ribboneconomy.feature.jobs;
 
 import java.util.EnumMap;
 import java.util.Map;
 
-public class PlayerData {
-
-
+public class JobData {
+    private final Map<JobType, Long> jobProgress;
     private JobType jobType;
 
-    /**
-     * 職業ごとの累計活動数
-     *
-     * 例：
-     * FARMER     → 農業活動数
-     * MINER      → 採掘活動数
-     * HUNTER     → 討伐活動数
-     * LUMBERJACK  → 伐採活動数
-     */
-    private final Map<JobType, Long> jobProgress;
-
-    /**
-     * 新規プレイヤー用
-     */
-    public PlayerData() {
-
+    public JobData() {
         this.jobType = JobType.NONE;
-
-        this.jobProgress =
-                new EnumMap<>(JobType.class);
-
+        this.jobProgress = new EnumMap<>(JobType.class);
         initializeJobProgress();
     }
 
-    /**
-     * 職業を指定して作成
-     */
-    public PlayerData(
-            JobType jobType
-    ) {
-
+    public JobData( JobType jobType) {
         this.jobType = jobType;
-
-        this.jobProgress =
-                new EnumMap<>(JobType.class);
-
+        this.jobProgress = new EnumMap<>(JobType.class);
         initializeJobProgress();
     }
 
-    /**
-     * 職業進行度を初期化
-     */
-    private void initializeJobProgress() {
-
-        for (JobType job : JobType.values()) {
-
-            jobProgress.putIfAbsent(
-                    job,
-                    0L
-            );
-        }
-    }
-
-    /**
-     * 職業取得
-     */
     public JobType getJobType() {
-
         return jobType;
     }
 
-    /**
-     * 職業設定
-     */
     public void setJobType(JobType jobType) {
-
         this.jobType = jobType;
     }
 
-    /**
-     * 指定した職業の累計活動数を取得
-     */
     public long getJobProgress(
             JobType jobType
     ) {
@@ -210,5 +154,19 @@ public class PlayerData {
     public Map<JobType, Long> getAllJobProgress() {
 
         return jobProgress;
+    }
+
+    /**
+     * 職業進行度を初期化
+     */
+    private void initializeJobProgress() {
+
+        for (JobType job : JobType.values()) {
+
+            jobProgress.putIfAbsent(
+                    job,
+                    0L
+            );
+        }
     }
 }

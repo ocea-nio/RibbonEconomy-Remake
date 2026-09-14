@@ -1,0 +1,57 @@
+JobsReward:
+  #農家
+  farmer:
+    wheat:
+      amount: 1.0
+    carrots:
+      amount: 1.0
+    potatoes:
+      amount: 1.0
+    beetroots:
+      amount: 1.0
+    nether_wart:
+      amount: 1.0
+    cocoa:
+      amount: 2.0
+    sweet_berry_bush:
+      amount: 2.0
+  #ハンター
+  hunter:
+  #木こり
+  lumberjack:
+  #鉱夫
+  miner:
+    #normal
+    coal_ore:
+      amount: 5.0
+    copper_ore:
+      amount: 8.0
+    iron_ore:
+      amount: 10.0
+    redstone_ore:
+      amount: 15.0
+    lapis_ore:
+      amount: 15.0
+    gold_ore:
+      amount: 20.0
+    diamond_ore:
+      amount: 100.0
+    emerald_ore:
+      amount: 150.0
+    #deepslate
+    deepslate_coal_ore:
+      amount: 7.0
+    deepslate_copper_ore:
+      amount: 10.0
+    deepslate_iron_ore:
+      amount: 12.0
+    deepslate_redstone_ore:
+      amount: 18.0
+    deepslate_lapis_ore:
+      amount: 18.0
+    deepslate_gold_ore:
+      amount: 25.0
+    deepslate_diamond_ore:
+      amount: 120.0
+    deepslate_emerald_ore:
+      amount: 180.0

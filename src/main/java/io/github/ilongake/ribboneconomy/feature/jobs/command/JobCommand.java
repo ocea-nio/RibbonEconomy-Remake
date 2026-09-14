@@ -1,5 +1,7 @@
-package io.github.ilongake.ribboneconomy.job;
+package io.github.ilongake.ribboneconomy.feature.jobs.command;
 
+import io.github.ilongake.ribboneconomy.feature.jobs.JobManager;
+import io.github.ilongake.ribboneconomy.feature.jobs.JobType;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

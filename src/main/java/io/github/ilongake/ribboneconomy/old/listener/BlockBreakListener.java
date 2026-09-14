@@ -2,8 +2,7 @@ package io.github.ilongake.ribboneconomy.listener;
 
 import io.github.ilongake.ribboneconomy.core.DataManager;
 import io.github.ilongake.ribboneconomy.core.PlayerData;
-import io.github.ilongake.ribboneconomy.job.JobManager;
-import io.github.ilongake.ribboneconomy.job.JobType;
+import io.github.ilongake.ribboneconomy.feature.jobs.JobManager;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -42,129 +41,6 @@ public class BlockBreakListener implements Listener {
 
         this.dataManager = dataManager;
         this.jobManager = jobManager;
-
-        // =========================
-        // 採掘師の報酬
-        // =========================
-
-        miningRewards.put(
-                Material.COAL_ORE,
-                5.0
-        );
-
-        miningRewards.put(
-                Material.DEEPSLATE_COAL_ORE,
-                7.0
-        );
-
-        miningRewards.put(
-                Material.IRON_ORE,
-                10.0
-        );
-
-        miningRewards.put(
-                Material.DEEPSLATE_IRON_ORE,
-                12.0
-        );
-
-        miningRewards.put(
-                Material.GOLD_ORE,
-                20.0
-        );
-
-        miningRewards.put(
-                Material.DEEPSLATE_GOLD_ORE,
-                25.0
-        );
-
-        miningRewards.put(
-                Material.DIAMOND_ORE,
-                100.0
-        );
-
-        miningRewards.put(
-                Material.DEEPSLATE_DIAMOND_ORE,
-                120.0
-        );
-
-        miningRewards.put(
-                Material.EMERALD_ORE,
-                150.0
-        );
-
-        miningRewards.put(
-                Material.DEEPSLATE_EMERALD_ORE,
-                180.0
-        );
-
-        miningRewards.put(
-                Material.REDSTONE_ORE,
-                15.0
-        );
-
-        miningRewards.put(
-                Material.DEEPSLATE_REDSTONE_ORE,
-                18.0
-        );
-
-        miningRewards.put(
-                Material.LAPIS_ORE,
-                15.0
-        );
-
-        miningRewards.put(
-                Material.DEEPSLATE_LAPIS_ORE,
-                18.0
-        );
-
-        miningRewards.put(
-                Material.COPPER_ORE,
-                8.0
-        );
-
-        miningRewards.put(
-                Material.DEEPSLATE_COPPER_ORE,
-                10.0
-        );
-
-        // =========================
-        // 農家の報酬
-        // =========================
-
-        farmingRewards.put(
-                Material.WHEAT,
-                1.0
-        );
-
-        farmingRewards.put(
-                Material.CARROTS,
-                1.0
-        );
-
-        farmingRewards.put(
-                Material.POTATOES,
-                1.0
-        );
-
-        farmingRewards.put(
-                Material.BEETROOTS,
-                1.0
-        );
-
-        farmingRewards.put(
-                Material.NETHER_WART,
-                1.0
-        );
-
-        farmingRewards.put(
-                Material.COCOA,
-                2.0
-        );
-
-        farmingRewards.put(
-                Material.SWEET_BERRY_BUSH,
-                2.0
-        );
 
         // =========================
         // 木こりの報酬

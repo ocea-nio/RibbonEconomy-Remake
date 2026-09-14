@@ -1,8 +1,7 @@
 package io.github.ilongake.ribboneconomy.farmer;
 
 import io.github.ilongake.ribboneconomy.core.DataManager;
-import io.github.ilongake.ribboneconomy.job.JobManager;
-import io.github.ilongake.ribboneconomy.job.JobType;
+import io.github.ilongake.ribboneconomy.feature.jobs.JobManager;
 
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;

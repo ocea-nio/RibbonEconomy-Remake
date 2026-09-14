@@ -12,6 +12,8 @@ public class EconomyService {
         this.economy = economy;
     }
 
+
+
     public double getBalance(UUID player){
         return  economy.getBalance(uuidTranslator(player));
     }
@@ -19,10 +21,17 @@ public class EconomyService {
         return  economy.getBalance(player);
     }
 
+
+
     public boolean deposit(UUID player, double amount) {
         if (amount < 0){return false;}
         return economy.depositPlayer(uuidTranslator(player),amount).transactionSuccess();
     }
+    public boolean deposit(OfflinePlayer player, double amount) {
+        if (amount < 0){return false;}
+        return economy.depositPlayer(player,amount).transactionSuccess();
+    }
+
 
     public boolean withdraw(UUID player, double amount) {
         if (amount < 0){return false;}

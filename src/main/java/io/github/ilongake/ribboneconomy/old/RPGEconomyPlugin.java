@@ -1,9 +1,6 @@
 package io.github.ilongake.ribboneconomy.old;
 
-import io.github.ilongake.ribboneconomy.feature.command.BalanceTopCommand;
 import io.github.ilongake.ribboneconomy.command.ExchangeCommand;
-import io.github.ilongake.ribboneconomy.command.MoneyCommand;
-import io.github.ilongake.ribboneconomy.command.PayCommand;
 import io.github.ilongake.ribboneconomy.core.DataManager;
 import io.github.ilongake.ribboneconomy.farmer.FarmerTradeCommand;
 import io.github.ilongake.ribboneconomy.farmer.FarmerTradeGUI;
@@ -12,13 +9,12 @@ import io.github.ilongake.ribboneconomy.farmer.FarmerTradeManager;
 import io.github.ilongake.ribboneconomy.farmer.FoodBuffKeys;
 import io.github.ilongake.ribboneconomy.farmer.FoodBuffManager;
 import io.github.ilongake.ribboneconomy.farmer.FoodBuffListener;
-import io.github.ilongake.ribboneconomy.gui.JobListener;
+import io.github.ilongake.ribboneconomy.feature.jobs.JobGUIListener;
 import io.github.ilongake.ribboneconomy.gui.MoneyListener;
 import io.github.ilongake.ribboneconomy.gui.QuestCreateListener;
-import io.github.ilongake.ribboneconomy.gui.RPGMenuListener;
-import io.github.ilongake.ribboneconomy.job.JobAdminCommand;
-import io.github.ilongake.ribboneconomy.job.JobCommand;
-import io.github.ilongake.ribboneconomy.job.JobManager;
+import io.github.ilongake.ribboneconomy.feature.mainmenu.RPGMenuListener;
+import io.github.ilongake.ribboneconomy.feature.jobs.command.JobAdminCommand;
+import io.github.ilongake.ribboneconomy.feature.jobs.JobManager;
 import io.github.ilongake.ribboneconomy.listener.BlockBreakListener;
 import io.github.ilongake.ribboneconomy.listener.ExchangeGuiListener;
 import io.github.ilongake.ribboneconomy.listener.MobKillListener;
@@ -157,7 +153,7 @@ public final class RPGEconomyPlugin extends JavaPlugin {
         getServer()
                 .getPluginManager()
                 .registerEvents(
-                        new JobListener(
+                        new JobGUIListener(
                                 jobManager
                         ),
                         this
@@ -203,35 +199,6 @@ public final class RPGEconomyPlugin extends JavaPlugin {
                         ),
                         this
                 );
-
-
-        // =========================
-        // 経済コマンド
-        // =========================
-
-        getCommand("money").setExecutor(
-                new MoneyCommand(
-                        dataManager
-                )
-        );
-
-        getCommand("pay").setExecutor(
-                new PayCommand(
-                        dataManager
-                )
-        );
-
-
-
-        // =========================
-        // 職業コマンド
-        // =========================
-
-        getCommand("job").setExecutor(
-                new JobCommand(
-                        jobManager
-                )
-        );
 
 
         // =========================

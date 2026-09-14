@@ -1,6 +1,6 @@
-package io.github.ilongake.ribboneconomy.command;
+package io.github.ilongake.ribboneconomy.feature.money;
 
-import io.github.ilongake.ribboneconomy.core.DataManager;
+import io.github.ilongake.ribboneconomy.core.EconomyService;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -11,10 +11,10 @@ import org.bukkit.entity.Player;
 
 public class MoneyCommand implements CommandExecutor {
 
-    private final DataManager dataManager;
+    private final EconomyService economy;
 
-    public MoneyCommand(DataManager dataManager) {
-        this.dataManager = dataManager;
+    public MoneyCommand(EconomyService economy) {
+        this.economy = economy;
     }
 
     @Override
@@ -46,9 +46,7 @@ public class MoneyCommand implements CommandExecutor {
             }
 
             double balance =
-                    dataManager.getBalance(
-                            player.getUniqueId()
-                    );
+                    economy.getBalance(player.getUniqueId());
 
             player.sendMessage(
                     ChatColor.GREEN
@@ -151,42 +149,11 @@ public class MoneyCommand implements CommandExecutor {
                 return true;
             }
 
-
             /*
              * プレイヤーデータが読み込まれているか確認
              */
 
-            if (dataManager.getPlayerData(
-                    target.getUniqueId()
-            ) == null) {
-
-                sender.sendMessage(
-                        ChatColor.RED
-                                + "そのプレイヤーのデータが読み込まれていません。"
-                );
-
-                return true;
-            }
-
-
-            /*
-             * お金を追加
-             */
-
-            dataManager.addBalance(
-                    target.getUniqueId(),
-                    amount
-            );
-
-
-            /*
-             * 保存
-             */
-
-            dataManager.savePlayer(
-                    target.getUniqueId()
-            );
-
+            economy.deposit(target,amount);
 
             /*
              * 実行者にメッセージ
@@ -202,7 +169,6 @@ public class MoneyCommand implements CommandExecutor {
                     )
                             + "円を与えました。"
             );
-
 
             /*
              * 対象プレイヤーがオンラインなら通知
