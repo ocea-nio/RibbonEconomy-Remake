@@ -4,7 +4,7 @@ import io.github.ilongake.ribboneconomy.core.DataManager;
 import io.github.ilongake.ribboneconomy.core.EconomyService;
 import io.github.ilongake.ribboneconomy.feature.jobs.JobManager;
 import io.github.ilongake.ribboneconomy.feature.jobs.JobsFeature;
-import io.github.ilongake.ribboneconomy.feature.jobs.RewardManager;
+import io.github.ilongake.ribboneconomy.feature.jobs.rewards.RewardManager;
 import io.github.ilongake.ribboneconomy.feature.mainmenu.RPGMenuListener;
 import org.bukkit.plugin.java.JavaPlugin;
 
