@@ -5,7 +5,7 @@ import io.github.ilongake.ribboneconomy.bootstrap.event_register.ListenerExecuti
 import io.github.ilongake.ribboneconomy.core.DataManager;
 import io.github.ilongake.ribboneconomy.core.EconomyService;
 import io.github.ilongake.ribboneconomy.feature.jobs.JobManager;
-import io.github.ilongake.ribboneconomy.feature.jobs.RewardManager;
+import io.github.ilongake.ribboneconomy.feature.jobs.rewards.RewardManager;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.plugin.java.JavaPlugin;
 

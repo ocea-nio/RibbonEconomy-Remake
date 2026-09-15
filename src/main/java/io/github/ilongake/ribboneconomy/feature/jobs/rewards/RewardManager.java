@@ -1,4 +1,4 @@
-package io.github.ilongake.ribboneconomy.feature.jobs;
+package io.github.ilongake.ribboneconomy.feature.jobs.rewards;
 
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;

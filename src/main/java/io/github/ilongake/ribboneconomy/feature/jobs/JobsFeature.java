@@ -28,6 +28,8 @@ public class JobsFeature {
                         ),
                         plugin
                 );
+
+        //Rewards
         plugin.getServer()
                 .getPluginManager()
                 .registerEvents(
