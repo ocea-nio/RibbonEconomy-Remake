@@ -434,5 +434,49 @@ public class RewardListener implements Listener {
     private void handleHunter(Player killer,EntityType target){
         double reward = hunterRewards.get(target);
         economy.deposit(killer,reward);
+        // メッセージ表示
+        killer.sendMessage(
+                "§a[ハンター] §f"
+                        + getMobName(entityType)
+                        + "を倒した！ §6+"
+                        + reward
+                        + "円"
+        );
+    }
+
+    /**
+     * Mobの表示名を取得
+     */
+    private String getMobName(EntityType entityType) {
+
+        switch (entityType) {
+
+            case ZOMBIE:
+                return "ゾンビ";
+
+            case SKELETON:
+                return "スケルトン";
+
+            case CREEPER:
+                return "クリーパー";
+
+            case SPIDER:
+                return "クモ";
+
+            case ENDERMAN:
+                return "エンダーマン";
+
+            case BLAZE:
+                return "ブレイズ";
+
+            case WITHER_SKELETON:
+                return "ウィザースケルトン";
+
+            case ENDER_DRAGON:
+                return "エンダードラゴン";
+
+            default:
+                return "Mob";
+        }
     }
 }
