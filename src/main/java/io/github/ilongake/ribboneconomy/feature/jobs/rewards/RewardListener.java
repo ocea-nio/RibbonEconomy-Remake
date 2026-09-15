@@ -1,6 +1,8 @@
 package io.github.ilongake.ribboneconomy.feature.jobs.rewards;
 
 import io.github.ilongake.ribboneconomy.core.EconomyService;
+import io.github.ilongake.ribboneconomy.feature.jobs.JobManager;
+import io.github.ilongake.ribboneconomy.feature.jobs.JobType;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.Ageable;
@@ -18,17 +20,10 @@ public class RewardListener implements Listener {
     private final EconomyService economy;
     private final RewardManager rewards;
     private final JobManager jobManager;
+    private final Map<Material, Double> miningRewards;
+    private final Map<Material, Double> farmingRewards;
+    private final Map<Material, Double> lumberjackRewards;
 
-    // 採掘師の報酬
-    private final Map<Material, Double> miningRewards =
-            rewards.getBreakReward(JobType.MINER);
-
-    // 農家の報酬
-    private final Map<Material, Double> farmingRewards =
-            rewards.getBreakReward(JobType.FARMER);
-    // 木こりの報酬
-    private final Map<Material, Double> lumberjackRewards =
-            rewards.getBreakReward(JobType.LUMBERJACK);
 
     public RewardListener(
             JobManager jobManager,
@@ -38,6 +33,12 @@ public class RewardListener implements Listener {
         this.economy = economy;
         this.rewards = rewards;
         this.jobManager = jobManager;
+        // 採掘師の報酬
+        this.miningRewards = rewards.getBreakReward(JobType.MINER);
+        // 農家の報酬
+        this.farmingRewards = rewards.getBreakReward(JobType.FARMER);
+        // 木こりの報酬
+        this.lumberjackRewards = rewards.getBreakReward(JobType.LUMBERJACK);
         }
 
     @EventHandler
@@ -52,12 +53,9 @@ public class RewardListener implements Listener {
         // プレイヤーデータ取得
         // =========================
 
-        PlayerData data =
-                dataManager.getPlayerData(
-                        player.getUniqueId()
-                );
+        JobType job = jobManager.getJob(player.getUniqueId());
 
-        if (data == null) {
+        if (job == null) {
             return;
         }
 
@@ -75,7 +73,7 @@ public class RewardListener implements Listener {
         // 採掘師
         // =========================
 
-        if (data.getJobType()
+        if (job
                 == JobType.MINER) {
 
             handleMining(
@@ -91,7 +89,7 @@ public class RewardListener implements Listener {
         // 農家
         // =========================
 
-        if (data.getJobType()
+        if (job
                 == JobType.FARMER) {
 
             handleFarming(
@@ -107,7 +105,7 @@ public class RewardListener implements Listener {
         // 木こり
         // =========================
 
-        if (data.getJobType()
+        if (job
                 == JobType.LUMBERJACK) {
 
             handleLumberjack(
@@ -179,10 +177,7 @@ public class RewardListener implements Listener {
                 rewardPerItem
                         * dropAmount;
 
-        dataManager.addBalance(
-                player.getUniqueId(),
-                totalReward
-        );
+        economy.deposit(player.getUniqueId(),totalReward);
 
         // =========================
         // 通知
@@ -294,10 +289,7 @@ public class RewardListener implements Listener {
         // お金を追加
         // =========================
 
-        dataManager.addBalance(
-                player.getUniqueId(),
-                totalReward
-        );
+        economy.deposit(player.getUniqueId(),totalReward);
 
         // =========================
         // レベルアップ通知
@@ -405,10 +397,7 @@ public class RewardListener implements Listener {
         // お金を追加
         // =========================
 
-        dataManager.addBalance(
-                player.getUniqueId(),
-                totalReward
-        );
+        economy.deposit(player.getUniqueId(),totalReward);
 
         // =========================
         // 通知

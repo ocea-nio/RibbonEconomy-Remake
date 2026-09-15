@@ -1,6 +1,8 @@
 package io.github.ilongake.ribboneconomy.feature.jobs;
 
 import io.github.ilongake.ribboneconomy.core.EconomyService;
+import io.github.ilongake.ribboneconomy.feature.jobs.rewards.RewardListener;
+import io.github.ilongake.ribboneconomy.feature.jobs.rewards.RewardManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class JobsFeature {
@@ -36,6 +38,5 @@ public class JobsFeature {
                         new RewardListener(job,reward,economy),
                         plugin
                 );
-
     }
 }
