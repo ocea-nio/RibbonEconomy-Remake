@@ -1,6 +1,6 @@
-package io.github.ilongake.ribboneconomy.gui;
+package io.github.ilongake.ribboneconomy.feature.money;
 
-import io.github.ilongake.ribboneconomy.core.DataManager;
+import io.github.ilongake.ribboneconomy.core.EconomyService;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -18,7 +18,7 @@ public class MoneyGUI {
      */
     public static void open(
             Player player,
-            DataManager dataManager
+            EconomyService economy
     ) {
 
         Inventory inventory =
@@ -37,7 +37,7 @@ public class MoneyGUI {
          */
 
         double balance =
-                dataManager.getBalance(
+                economy.getBalance(
                         player.getUniqueId()
                 );
 

@@ -1,6 +1,5 @@
 package io.github.ilongake.ribboneconomy.old;
 
-import io.github.ilongake.ribboneconomy.command.ExchangeCommand;
 import io.github.ilongake.ribboneconomy.core.DataManager;
 import io.github.ilongake.ribboneconomy.farmer.FarmerTradeCommand;
 import io.github.ilongake.ribboneconomy.farmer.FarmerTradeGUI;
@@ -10,17 +9,14 @@ import io.github.ilongake.ribboneconomy.farmer.FoodBuffKeys;
 import io.github.ilongake.ribboneconomy.farmer.FoodBuffManager;
 import io.github.ilongake.ribboneconomy.farmer.FoodBuffListener;
 import io.github.ilongake.ribboneconomy.feature.jobs.JobGUIListener;
-import io.github.ilongake.ribboneconomy.gui.MoneyListener;
-import io.github.ilongake.ribboneconomy.gui.QuestCreateListener;
-import io.github.ilongake.ribboneconomy.feature.mainmenu.RPGMenuListener;
+import io.github.ilongake.ribboneconomy.feature.quest.QuestCreateListener;
 import io.github.ilongake.ribboneconomy.feature.jobs.command.JobAdminCommand;
 import io.github.ilongake.ribboneconomy.feature.jobs.JobManager;
 import io.github.ilongake.ribboneconomy.listener.BlockBreakListener;
-import io.github.ilongake.ribboneconomy.listener.ExchangeGuiListener;
 import io.github.ilongake.ribboneconomy.listener.MobKillListener;
 import io.github.ilongake.ribboneconomy.listener.PlayerJoinListener;
 import io.github.ilongake.ribboneconomy.listener.PlayerQuitListener;
-import io.github.ilongake.ribboneconomy.listener.VillagerShopListener;
+import io.github.ilongake.ribboneconomy.feature.villager.VillagerShopListener;
 import io.github.ilongake.ribboneconomy.quest.QuestCommand;
 import io.github.ilongake.ribboneconomy.quest.QuestManager;
 import io.github.ilongake.ribboneconomy.slot.GiveSlotCommand;
@@ -132,19 +128,6 @@ public final class RPGEconomyPlugin extends JavaPlugin {
         );
 
 
-        // =========================
-        // 村人ショップ
-        // =========================
-
-        getServer()
-                .getPluginManager()
-                .registerEvents(
-                        new VillagerShopListener(
-                                dataManager
-                        ),
-                        this
-                );
-
 
         // =========================
         // 職業GUI
@@ -170,37 +153,6 @@ public final class RPGEconomyPlugin extends JavaPlugin {
                         dataManager
                 );
 
-
-        // =========================
-        // RPGメニュー
-        // =========================
-
-        getServer()
-                .getPluginManager()
-                .registerEvents(
-                        new RPGMenuListener(
-                                questManager,
-                                dataManager,
-                                jobManager
-                        ),
-                        this
-                );
-
-
-        // =========================
-        // お金メニュー
-        // =========================
-
-        getServer()
-                .getPluginManager()
-                .registerEvents(
-                        new MoneyListener(
-                                dataManager
-                        ),
-                        this
-                );
-
-
         // =========================
         // 依頼コマンド
         // =========================
@@ -223,28 +175,6 @@ public final class RPGEconomyPlugin extends JavaPlugin {
                 )
         );
 
-
-        // =========================
-        // エメラルド交換
-        // =========================
-
-        ExchangeCommand exchangeCommand =
-                new ExchangeCommand(
-                        dataManager
-                );
-
-        getCommand("exchange").setExecutor(
-                exchangeCommand
-        );
-
-        getServer()
-                .getPluginManager()
-                .registerEvents(
-                        new ExchangeGuiListener(
-                                exchangeCommand
-                        ),
-                        this
-                );
 
 
         // =========================

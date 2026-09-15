@@ -1,4 +1,4 @@
-package io.github.ilongake.ribboneconomy.gui;
+package io.github.ilongake.ribboneconomy.feature.villager;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

@@ -1,4 +1,4 @@
-package io.github.ilongake.ribboneconomy.gui;
+package io.github.ilongake.ribboneconomy.feature.money;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;

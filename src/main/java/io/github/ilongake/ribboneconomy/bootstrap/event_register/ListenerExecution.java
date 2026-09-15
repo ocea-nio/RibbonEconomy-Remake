@@ -6,32 +6,66 @@ import io.github.ilongake.ribboneconomy.feature.jobs.JobManager;
 import io.github.ilongake.ribboneconomy.feature.jobs.JobsFeature;
 import io.github.ilongake.ribboneconomy.feature.jobs.rewards.RewardManager;
 import io.github.ilongake.ribboneconomy.feature.mainmenu.RPGMenuListener;
+import io.github.ilongake.ribboneconomy.feature.money.ExchangeGuiListener;
+import io.github.ilongake.ribboneconomy.feature.money.ExchangeService;
+import io.github.ilongake.ribboneconomy.feature.money.MoneyListener;
+import io.github.ilongake.ribboneconomy.feature.quest.QuestManager;
+import io.github.ilongake.ribboneconomy.feature.villager.VillagerShopListener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class ListenerExecution {
     private final JavaPlugin plugin;
     private final EconomyService economy;
     private final JobManager jobs;
-    private final DataManager data;
     private final RewardManager reward;
+    private final QuestManager quest;
+    private final ExchangeService exchangeService;
 
-    public ListenerExecution(JavaPlugin plugin, EconomyService economy, JobManager jobs, DataManager data, RewardManager reward) {
+    public ListenerExecution(JavaPlugin plugin, EconomyService economy, JobManager jobs, RewardManager reward, QuestManager quest) {
         this.plugin = plugin;
         this.economy = economy;
         this.jobs = jobs;
-        this.data = data;
         this.reward = reward;
+        this.quest = quest;
+        this.exchangeService = new ExchangeService(economy);
     }
     public void setListener(){
+        //money
+        plugin.getServer()
+                .getPluginManager()
+                .registerEvents(
+                        new ExchangeGuiListener(
+                                exchangeService
+                        ),
+                        plugin
+                );
+        plugin.getServer()
+                .getPluginManager()
+                .registerEvents(
+                        new MoneyListener(
+                                economy
+                        ),
+                        plugin
+                );
+        //villager
 
-        //RPGGUI用
+        plugin.getServer()
+                .getPluginManager()
+                .registerEvents(
+                        new VillagerShopListener(
+                                economy
+                        ),
+                        plugin
+                );
+
+        //mainMenu
         plugin.getServer().getPluginManager().registerEvents(
                 new RPGMenuListener(
-                        questManager,
-                        data,
+                        quest,
+                        economy,
                         jobs
                 ),
-                this
+                plugin
         );
 
         //jobs

@@ -1,7 +1,8 @@
 package io.github.ilongake.ribboneconomy.listener;
 
-import io.github.ilongake.ribboneconomy.core.DataManager;
-import io.github.ilongake.ribboneconomy.core.PlayerData;
+import io.github.ilongake.ribboneconomy.core.EconomyService;
+import io.github.ilongake.ribboneconomy.feature.jobs.JobManager;
+import io.github.ilongake.ribboneconomy.feature.jobs.JobType;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -10,10 +11,12 @@ import org.bukkit.event.entity.EntityDeathEvent;
 
 public class MobKillListener implements Listener {
 
-    private final DataManager dataManager;
+    private final EconomyService economy;
+    private final JobManager job;
 
-    public MobKillListener(DataManager dataManager) {
-        this.dataManager = dataManager;
+    public MobKillListener(EconomyService economy, JobManager job) {
+        this.economy = economy;
+        this.job = job;
     }
 
     @EventHandler
@@ -27,18 +30,9 @@ public class MobKillListener implements Listener {
             return;
         }
 
-        // プレイヤーデータを取得
-        PlayerData data = dataManager.getPlayerData(
-                player.getUniqueId()
-        );
-
-        // データが存在しなければ終了
-        if (data == null) {
-            return;
-        }
 
         // ハンター職か確認
-        if (data.getJobType() != JobType.HUNTER) {
+        if (job.getJob(player.getUniqueId()) != JobType.HUNTER) {
             return;
         }
 
@@ -88,10 +82,7 @@ public class MobKillListener implements Listener {
         }
 
         // お金を追加
-        dataManager.addBalance(
-                player.getUniqueId(),
-                reward
-        );
+        economy.deposit(player.getUniqueId(),reward);
 
         // メッセージ表示
         player.sendMessage(

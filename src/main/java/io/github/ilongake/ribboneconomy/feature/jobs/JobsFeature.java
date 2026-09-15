@@ -38,5 +38,6 @@ public class JobsFeature {
                         new RewardListener(job,reward,economy),
                         plugin
                 );
+
     }
 }

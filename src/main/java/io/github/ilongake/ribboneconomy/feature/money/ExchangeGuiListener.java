@@ -1,7 +1,5 @@
-package io.github.ilongake.ribboneconomy.listener;
+package io.github.ilongake.ribboneconomy.feature.money;
 
-import io.github.ilongake.ribboneconomy.command.ExchangeCommand;
-import io.github.ilongake.ribboneconomy.gui.ExchangeGUI;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -9,10 +7,10 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 
 public class ExchangeGuiListener implements Listener {
 
-    private final ExchangeCommand exchangeCommand;
+    private final ExchangeService exchange;
 
-    public ExchangeGuiListener(ExchangeCommand exchangeCommand) {
-        this.exchangeCommand = exchangeCommand;
+    public ExchangeGuiListener(ExchangeService exchange) {
+        this.exchange = exchange;
     }
 
     @EventHandler
@@ -41,17 +39,17 @@ public class ExchangeGuiListener implements Listener {
 
         // 1個交換
         if (slot == 11) {
-            exchangeCommand.exchange(player, 1);
+            exchange.exchange(player, 1);
         }
 
         // 10個交換
         else if (slot == 13) {
-            exchangeCommand.exchange(player, 10);
+            exchange.exchange(player, 10);
         }
 
         // 64個交換
         else if (slot == 15) {
-            exchangeCommand.exchange(player, 64);
+            exchange.exchange(player, 64);
         }
     }
 }

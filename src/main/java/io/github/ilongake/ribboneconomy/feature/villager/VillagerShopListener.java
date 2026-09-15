@@ -1,7 +1,7 @@
-package io.github.ilongake.ribboneconomy.listener;
+package io.github.ilongake.ribboneconomy.feature.villager;
 
 import io.github.ilongake.ribboneconomy.core.DataManager;
-import io.github.ilongake.ribboneconomy.gui.VillagerShopGUI;
+import io.github.ilongake.ribboneconomy.core.EconomyService;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
@@ -15,7 +15,7 @@ import org.bukkit.inventory.ItemStack;
 
 public class VillagerShopListener implements Listener {
 
-    private final DataManager dataManager;
+    private final EconomyService economy;
 
     /*
      * =========================
@@ -23,12 +23,8 @@ public class VillagerShopListener implements Listener {
      * =========================
      */
 
-    public VillagerShopListener(
-            DataManager dataManager
-    ) {
-
-        this.dataManager =
-                dataManager;
+    public VillagerShopListener(EconomyService economy) {
+        this.economy = economy;
     }
 
     /*
@@ -346,7 +342,7 @@ public class VillagerShopListener implements Listener {
     ) {
 
         double balance =
-                dataManager.getBalance(
+                economy.getBalance(
                         player.getUniqueId()
                 );
 
@@ -425,7 +421,7 @@ public class VillagerShopListener implements Listener {
          * =========================
          */
 
-        dataManager.removeBalance(
+        economy.withdraw(
                 player.getUniqueId(),
                 price
         );
@@ -475,7 +471,7 @@ public class VillagerShopListener implements Listener {
                         + "残高: "
                         + String.format(
                         "%,.0f",
-                        dataManager.getBalance(
+                        economy.getBalance(
                                 player.getUniqueId()
                         )
                 )

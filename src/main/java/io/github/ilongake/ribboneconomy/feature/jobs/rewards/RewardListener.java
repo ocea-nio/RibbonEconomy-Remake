@@ -7,13 +7,14 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.Ageable;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class RewardListener implements Listener {
@@ -23,6 +24,7 @@ public class RewardListener implements Listener {
     private final Map<Material, Double> miningRewards;
     private final Map<Material, Double> farmingRewards;
     private final Map<Material, Double> lumberjackRewards;
+    private final Map<EntityType, Double> hunterRewards;
 
 
     public RewardListener(
@@ -39,7 +41,8 @@ public class RewardListener implements Listener {
         this.farmingRewards = rewards.getBreakReward(JobType.FARMER);
         // 木こりの報酬
         this.lumberjackRewards = rewards.getBreakReward(JobType.LUMBERJACK);
-        }
+        this.hunterRewards = rewards.getKillReward(JobType.HUNTER);
+    }
 
     @EventHandler
     public void onBlockBreak(
@@ -114,6 +117,22 @@ public class RewardListener implements Listener {
                     material
             );
         }
+    }
+
+    @EventHandler
+    public void onKillEnemy(EntityDeathEvent event){
+        Player player = event.getEntity().getKiller();
+        // プレイヤーが倒していなければ終了
+        if (player == null) {
+            return;
+        }
+        JobType job = jobManager.getJob(player.getUniqueId());
+        // ハンター職か確認
+        if (job != JobType.HUNTER) {
+            return;
+        }
+        EntityType entityType = event.getEntity().getType();
+        handleHunter(player,entityType);
     }
 
     /**
@@ -410,5 +429,10 @@ public class RewardListener implements Listener {
                         + dropAmount
                         + "個)"
         );
+    }
+
+    private void handleHunter(Player killer,EntityType target){
+        double reward = hunterRewards.get(target);
+        economy.deposit(killer,reward);
     }
 }

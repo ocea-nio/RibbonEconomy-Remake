@@ -1,6 +1,7 @@
-package io.github.ilongake.ribboneconomy.quest;
+package io.github.ilongake.ribboneconomy.feature.quest;
 
 import io.github.ilongake.ribboneconomy.core.DataManager;
+import io.github.ilongake.ribboneconomy.core.EconomyService;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -19,7 +20,7 @@ public class QuestManager {
             new ArrayList<>();
 
     // 経済データ管理
-    private final DataManager dataManager;
+    private final EconomyService economy;
 
     // プラグイン
     private final JavaPlugin plugin;
@@ -36,11 +37,11 @@ public class QuestManager {
      */
     public QuestManager(
             JavaPlugin plugin,
-            DataManager dataManager
+            EconomyService economy
     ) {
 
         this.plugin = plugin;
-        this.dataManager = dataManager;
+        this.economy = economy;
 
         // quests.yml
         file = new File(
@@ -97,11 +98,8 @@ public class QuestManager {
         }
 
         // 依頼主から報酬を引き出す
-        boolean success =
-                dataManager.withdraw(
-                        creatorUuid,
-                        reward
-                );
+        boolean success = economy.withdraw(creatorUuid,reward);
+
 
         // お金が足りない
         if (!success) {
@@ -370,10 +368,7 @@ public class QuestManager {
                 quest.getReward();
 
         // 受注者へ報酬を送金
-        dataManager.addBalance(
-                quest.getWorkerUuid(),
-                reward
-        );
+        economy.deposit(quest.getCreatorUuid(),reward);
 
         // 承認
         quest.setStatus(
@@ -427,10 +422,7 @@ public class QuestManager {
         }
 
         // ロックしていた報酬を返金
-        dataManager.addBalance(
-                creatorUuid,
-                quest.getReward()
-        );
+        economy.deposit(creatorUuid,quest.getReward());
 
         // 依頼を削除
         boolean removed =

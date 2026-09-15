@@ -1,6 +1,8 @@
-package io.github.ilongake.ribboneconomy.gui;
+package io.github.ilongake.ribboneconomy.feature.money;
 
 import io.github.ilongake.ribboneconomy.core.DataManager;
+import io.github.ilongake.ribboneconomy.core.EconomyService;
+import io.github.ilongake.ribboneconomy.feature.mainmenu.RPGMenuGUI;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -13,7 +15,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 public class MoneyListener
         implements Listener {
 
-    private final DataManager dataManager;
+    private final EconomyService economy;
 
     /*
      * 送金先の入力待ちプレイヤー
@@ -22,11 +24,11 @@ public class MoneyListener
             new java.util.HashMap<>();
 
     public MoneyListener(
-            DataManager dataManager
+            EconomyService economy
     ) {
 
-        this.dataManager =
-                dataManager;
+        this.economy =
+                economy;
     }
 
 
@@ -398,7 +400,7 @@ public class MoneyListener
          */
 
         boolean success =
-                dataManager.withdraw(
+                economy.withdraw(
                         player.getUniqueId(),
                         amount
                 );
@@ -423,7 +425,7 @@ public class MoneyListener
          * 相手にお金を追加
          */
 
-        dataManager.addBalance(
+        economy.deposit(
                 target.getUniqueId(),
                 amount
         );

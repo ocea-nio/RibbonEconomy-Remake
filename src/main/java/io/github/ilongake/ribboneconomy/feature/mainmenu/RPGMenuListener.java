@@ -1,10 +1,12 @@
 package io.github.ilongake.ribboneconomy.feature.mainmenu;
 
 import io.github.ilongake.ribboneconomy.core.DataManager;
+import io.github.ilongake.ribboneconomy.core.EconomyService;
 import io.github.ilongake.ribboneconomy.feature.jobs.JobGUI;
 import io.github.ilongake.ribboneconomy.feature.jobs.JobManager;
-import io.github.ilongake.ribboneconomy.quest.Quest;
-import io.github.ilongake.ribboneconomy.quest.QuestManager;
+import io.github.ilongake.ribboneconomy.feature.money.ExchangeGUI;
+import io.github.ilongake.ribboneconomy.feature.quest.*;
+import io.github.ilongake.ribboneconomy.feature.money.MoneyGUI;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -20,28 +22,23 @@ import org.bukkit.persistence.PersistentDataType;
 
 import java.util.UUID;
 
-public class RPGMenuListener
-        implements Listener {
-
+public class RPGMenuListener implements Listener {
     private final QuestManager questManager;
-    private final DataManager dataManager;
+    private final EconomyService economy;
     private final JobManager jobManager;
-
 
     public RPGMenuListener(
             QuestManager questManager,
-            DataManager dataManager,
+            EconomyService economy,
             JobManager jobManager
     ) {
 
-        this.questManager =
-                questManager;
+        this.questManager = questManager;
 
-        this.dataManager =
-                dataManager;
+        this.economy = economy;
 
-        this.jobManager =
-                jobManager;
+        this.jobManager = jobManager;
+
     }
 
 
@@ -135,7 +132,7 @@ public class RPGMenuListener
 
                 MoneyGUI.open(
                         player,
-                        dataManager
+                        economy
                 );
 
                 return;

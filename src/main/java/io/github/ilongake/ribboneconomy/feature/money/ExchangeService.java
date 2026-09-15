@@ -1,45 +1,16 @@
-package io.github.ilongake.ribboneconomy.command;
+package io.github.ilongake.ribboneconomy.feature.money;
 
-import io.github.ilongake.ribboneconomy.core.DataManager;
-import io.github.ilongake.ribboneconomy.gui.ExchangeGUI;
+import io.github.ilongake.ribboneconomy.core.EconomyService;
 import org.bukkit.Material;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
-public class ExchangeCommand implements CommandExecutor {
+public class ExchangeService {
+    private final EconomyService economy;
 
-    private final DataManager dataManager;
-
-    public ExchangeCommand(DataManager dataManager) {
-        this.dataManager = dataManager;
-    }
-
-    @Override
-    public boolean onCommand(
-            CommandSender sender,
-            Command command,
-            String label,
-            String[] args
-    ) {
-
-        // プレイヤー以外は実行できない
-        if (!(sender instanceof Player player)) {
-
-            sender.sendMessage(
-                    "このコマンドはプレイヤーのみ使用できます。"
-            );
-
-            return true;
-        }
-
-        // GUIを開く
-        ExchangeGUI.open(player);
-
-        return true;
+    public ExchangeService(EconomyService economy) {
+        this.economy = economy;
     }
 
     /**
@@ -71,7 +42,7 @@ public class ExchangeCommand implements CommandExecutor {
                 costPerEmerald * amount;
 
         // 所持金確認
-        if (dataManager.getBalance(
+        if (economy.getBalance(
                 player.getUniqueId()
         ) < totalCost) {
 
@@ -109,7 +80,7 @@ public class ExchangeCommand implements CommandExecutor {
         }
 
         // お金を減らす
-        dataManager.removeBalance(
+        economy.withdraw(
                 player.getUniqueId(),
                 totalCost
         );
