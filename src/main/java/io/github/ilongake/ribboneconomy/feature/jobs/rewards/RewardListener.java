@@ -437,7 +437,7 @@ public class RewardListener implements Listener {
         // メッセージ表示
         killer.sendMessage(
                 "§a[ハンター] §f"
-                        + getMobName(entityType)
+                        + getMobName(target)
                         + "を倒した！ §6+"
                         + reward
                         + "円"
