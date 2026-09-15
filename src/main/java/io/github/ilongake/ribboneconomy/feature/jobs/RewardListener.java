@@ -25,11 +25,10 @@ public class RewardListener implements Listener {
 
     // 農家の報酬
     private final Map<Material, Double> farmingRewards =
-            new HashMap<>();
-
+            rewards.getBreakReward(JobType.FARMER);
     // 木こりの報酬
     private final Map<Material, Double> lumberjackRewards =
-            new HashMap<>();
+            rewards.getBreakReward(JobType.LUMBERJACK);
 
     public RewardListener(
             JobManager jobManager,
@@ -39,121 +38,7 @@ public class RewardListener implements Listener {
         this.economy = economy;
         this.rewards = rewards;
         this.jobManager = jobManager;
-
-        // =========================
-        // 木こりの報酬
-        // =========================
-
-        // オーク
-        lumberjackRewards.put(
-                Material.OAK_LOG,
-                5.0
-        );
-
-        lumberjackRewards.put(
-                Material.OAK_WOOD,
-                5.0
-        );
-
-        // トウヒ
-        lumberjackRewards.put(
-                Material.SPRUCE_LOG,
-                5.0
-        );
-
-        lumberjackRewards.put(
-                Material.SPRUCE_WOOD,
-                5.0
-        );
-
-        // シラカバ
-        lumberjackRewards.put(
-                Material.BIRCH_LOG,
-                5.0
-        );
-
-        lumberjackRewards.put(
-                Material.BIRCH_WOOD,
-                5.0
-        );
-
-        // ジャングル
-        lumberjackRewards.put(
-                Material.JUNGLE_LOG,
-                5.0
-        );
-
-        lumberjackRewards.put(
-                Material.JUNGLE_WOOD,
-                5.0
-        );
-
-        // アカシア
-        lumberjackRewards.put(
-                Material.ACACIA_LOG,
-                5.0
-        );
-
-        lumberjackRewards.put(
-                Material.ACACIA_WOOD,
-                5.0
-        );
-
-        // ダークオーク
-        lumberjackRewards.put(
-                Material.DARK_OAK_LOG,
-                5.0
-        );
-
-        lumberjackRewards.put(
-                Material.DARK_OAK_WOOD,
-                5.0
-        );
-
-        // マングローブ
-        lumberjackRewards.put(
-                Material.MANGROVE_LOG,
-                5.0
-        );
-
-        lumberjackRewards.put(
-                Material.MANGROVE_WOOD,
-                5.0
-        );
-
-        // 桜
-        lumberjackRewards.put(
-                Material.CHERRY_LOG,
-                5.0
-        );
-
-        lumberjackRewards.put(
-                Material.CHERRY_WOOD,
-                5.0
-        );
-
-        // 真紅
-        lumberjackRewards.put(
-                Material.CRIMSON_STEM,
-                5.0
-        );
-
-        lumberjackRewards.put(
-                Material.CRIMSON_HYPHAE,
-                5.0
-        );
-
-        // 歪んだ
-        lumberjackRewards.put(
-                Material.WARPED_STEM,
-                5.0
-        );
-
-        lumberjackRewards.put(
-                Material.WARPED_HYPHAE,
-                5.0
-        );
-    }
+        }
 
     @EventHandler
     public void onBlockBreak(

@@ -31,6 +31,26 @@ JobsReward:
       amount: 5.0
     spruce_wood:
       amount: 5.0
+    jungle_log:
+      amount: 5.0
+    jungle_wood:
+      amount: 5.0
+    acacia_log:
+      amount: 5.0
+    acacia_wood:
+      amount: 5.0
+    dark_oak_log:
+      amount: 5.0
+    dark_oak_wood:
+      amount: 5.0
+    mangrove_log:
+      amount: 5.0
+    mangrove_wood:
+      amount: 5.0
+    cherry_log:
+      amount: 5.0
+    cherry_wood:
+      amount: 5.0
 
   #鉱夫
   miner:
