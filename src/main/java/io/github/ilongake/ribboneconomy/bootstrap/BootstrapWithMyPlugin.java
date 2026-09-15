@@ -10,11 +10,10 @@ import io.github.ilongake.ribboneconomy.feature.quest.QuestManager;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.beans.EventHandler;
 
 public class BootstrapWithMyPlugin {
     public void start(JavaPlugin plugin, Economy economyInstance){
-        //依存関係
+        //依存
         EconomyService economy = new EconomyService(economyInstance);
 
         //マネージャー登録

@@ -14,7 +14,6 @@ public class BootstrapWithVault {
         if (provider == null) {
             throw new IllegalStateException("Economy provider is not available.");
         }
-
         return provider.getProvider();
     }
 }

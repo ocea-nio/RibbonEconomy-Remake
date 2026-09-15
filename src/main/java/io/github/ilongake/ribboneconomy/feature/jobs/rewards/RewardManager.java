@@ -1,6 +1,7 @@
 package io.github.ilongake.ribboneconomy.feature.jobs.rewards;
 
 import io.github.ilongake.ribboneconomy.feature.jobs.JobType;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -43,8 +44,12 @@ public class RewardManager {
             return rewards;
         }
         for (String block : section.getKeys(false)) {
+            Material material = Material.matchMaterial(block);
+            if (material == null) {
+                continue;
+            }
             double amount = section.getDouble(block + ".amount");
-            rewards.put(Material.matchMaterial(block), amount);
+            rewards.put(material, amount);
         }
         return rewards;
     }

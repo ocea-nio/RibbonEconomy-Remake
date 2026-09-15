@@ -1,6 +1,6 @@
 name: RPGEconomy
 version: 1.0.0
-main: io/github/ilongake/ribboneconomy/RibbonEconomy
+main: io.github.ilongake.ribboneconomy.RibbonEconomy
 api-version: '1.21.11'
 authors:
   - ilongake

@@ -3,6 +3,7 @@ package io.github.ilongake.ribboneconomy.feature.jobs.rewards;
 import io.github.ilongake.ribboneconomy.core.EconomyService;
 import io.github.ilongake.ribboneconomy.feature.jobs.JobManager;
 import io.github.ilongake.ribboneconomy.feature.jobs.JobType;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.Ageable;

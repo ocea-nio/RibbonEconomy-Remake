@@ -1,7 +1,7 @@
 package io.github.ilongake.ribboneconomy.feature.jobs;
 
 import io.github.ilongake.ribboneconomy.core.DataManager;
-import io.github.ilongake.ribboneconomy.farmer.FoodBuffManager;
+//import io.github.ilongake.ribboneconomy.farmer.FoodBuffManager;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -18,7 +18,7 @@ public class JobManager {
      * FoodBuffManager側からJobManagerを使用しているため、
      * コンストラクタで直接渡さず後から設定する。
      */
-    private FoodBuffManager foodBuffManager;
+//    private FoodBuffManager foodBuffManager;
 
 
     /*
@@ -41,13 +41,13 @@ public class JobManager {
      * ==========================================================
      */
 
-    public void setFoodBuffManager(
-            FoodBuffManager foodBuffManager
-    ) {
-
-        this.foodBuffManager =
-                foodBuffManager;
-    }
+//    public void setFoodBuffManager(
+//            FoodBuffManager foodBuffManager
+//    ) {
+//
+//        this.foodBuffManager =
+//                foodBuffManager;
+//    }
 
 
     /*
@@ -61,25 +61,25 @@ public class JobManager {
      * ここでは満腹度+4は発生しない。
      */
 
-    private void updatePassive(
-            UUID uuid
-    ) {
-
-        if (foodBuffManager == null) {
-            return;
-        }
-
-        Player player =
-                Bukkit.getPlayer(uuid);
-
-        if (player == null) {
-            return;
-        }
-
-        foodBuffManager.applyLevel50Passive(
-                player
-        );
-    }
+    //    private void updatePassive(
+    //            UUID uuid
+    //    ) {
+    //
+    //        if (foodBuffManager == null) {
+    //            return;
+    //        }
+    //
+    //        Player player =
+    //                Bukkit.getPlayer(uuid);
+    //
+    //        if (player == null) {
+    //            return;
+    //        }
+    //
+    //        foodBuffManager.applyLevel50Passive(
+    //                player
+    //        );
+    //    }
 
 
     /*
@@ -94,26 +94,26 @@ public class JobManager {
      * 満腹度 +4
      */
 
-    private void activateLevel50Passive(
-            UUID uuid
-    ) {
-
-        if (foodBuffManager == null) {
-            return;
-        }
-
-        Player player =
-                Bukkit.getPlayer(uuid);
-
-        if (player == null) {
-            return;
-        }
-
-        foodBuffManager
-                .applyLevel50PassiveWithFoodBonus(
-                        player
-                );
-    }
+//    private void activateLevel50Passive(
+//            UUID uuid
+//    ) {
+//
+//        if (foodBuffManager == null) {
+//            return;
+//        }
+//
+//        Player player =
+//                Bukkit.getPlayer(uuid);
+//
+//        if (player == null) {
+//            return;
+//        }
+//
+//        foodBuffManager
+//                .applyLevel50PassiveWithFoodBonus(
+//                        player
+//                );
+//    }
 
 
     /*
@@ -128,7 +128,6 @@ public class JobManager {
 
         JobData data =
                 dataManager.getPlayerData(uuid);
-
         if (data == null) {
             return JobType.NONE;
         }
@@ -204,7 +203,7 @@ public class JobManager {
          * → 最大体力+4を付与
          */
 
-        updatePassive(uuid);
+        //updatePassive(uuid);
     }
 
 
@@ -377,27 +376,27 @@ public class JobManager {
         /*
          * 現在の職業の場合
          */
-        if (getJob(uuid) == jobType) {
-
-            /*
-             * Lv.49以下 → Lv.50
-             *
-             * 実際にLv.50へ到達した場合だけ
-             * 満腹度+4を発生させる。
-             */
-            if (oldLevel < 50
-                    && level >= 50) {
-
-                activateLevel50Passive(uuid);
-
-            } else {
-
-                /*
-                 * それ以外は通常更新
-                 */
-                updatePassive(uuid);
-            }
-        }
+//        if (getJob(uuid) == jobType) {
+//
+//            /*
+//             * Lv.49以下 → Lv.50
+//             *
+//             * 実際にLv.50へ到達した場合だけ
+//             * 満腹度+4を発生させる。
+//             */
+//            if (oldLevel < 50
+//                    && level >= 50) {
+//
+//                activateLevel50Passive(uuid);
+//
+//            } else {
+//
+//                /*
+//                 * それ以外は通常更新
+//                 */
+//                updatePassive(uuid);
+//            }
+//        }
 
         return true;
     }
@@ -460,30 +459,30 @@ public class JobManager {
         /*
          * レベルが変わった場合
          */
-        if (oldLevel != newLevel) {
-
-            /*
-             * 現在の職業か確認
-             */
-            if (getJob(uuid) == jobType) {
-
-                /*
-                 * Lv.49以下 → Lv.50
-                 */
-                if (oldLevel < 50
-                        && newLevel >= 50) {
-
-                    activateLevel50Passive(uuid);
-
-                } else {
-
-                    /*
-                     * その他のレベル変化
-                     */
-                    updatePassive(uuid);
-                }
-            }
-        }
+//        if (oldLevel != newLevel) {
+//
+//            /*
+//             * 現在の職業か確認
+//             */
+//            if (getJob(uuid) == jobType) {
+//
+//                /*
+//                 * Lv.49以下 → Lv.50
+//                 */
+//                if (oldLevel < 50
+//                        && newLevel >= 50) {
+//
+//                    activateLevel50Passive(uuid);
+//
+//                } else {
+//
+//                    /*
+//                     * その他のレベル変化
+//                     */
+//                    updatePassive(uuid);
+//                }
+//            }
+//        }
     }
 
 
