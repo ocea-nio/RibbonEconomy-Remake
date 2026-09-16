@@ -1,6 +1,7 @@
-package io.github.ilongake.ribboneconomy.slot;
+package io.github.ilongake.ribboneconomy.feature.slot;
 
 import io.github.ilongake.ribboneconomy.core.DataManager;
+import io.github.ilongake.ribboneconomy.core.EconomyService;
 import org.bukkit.entity.Player;
 
 /**
@@ -10,24 +11,24 @@ import org.bukkit.entity.Player;
  */
 public class EconomyBridge {
 
-    private final DataManager dataManager;
+    private final EconomyService service;
 
-    public EconomyBridge(DataManager dataManager) {
-        this.dataManager = dataManager;
+    public EconomyBridge(EconomyService service) {
+        this.service = service;
     }
 
     /** 残高取得 */
     public double getBalance(Player player) {
-        return dataManager.getBalance(player.getUniqueId());
+        return service.getBalance(player.getUniqueId());
     }
 
     /** 引き出し(残高不足ならfalseを返し何もしない) */
     public boolean withdraw(Player player, double amount) {
-        return dataManager.withdraw(player.getUniqueId(), amount);
+        return service.withdraw(player.getUniqueId(), amount);
     }
 
     /** 入金 */
     public void deposit(Player player, double amount) {
-        dataManager.addBalance(player.getUniqueId(), amount);
+        service.deposit(player.getUniqueId(), amount);
     }
 }

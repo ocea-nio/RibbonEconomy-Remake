@@ -1,4 +1,4 @@
-package io.github.ilongake.ribboneconomy.slot;
+package io.github.ilongake.ribboneconomy.feature.slot;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Server;
@@ -26,10 +26,10 @@ import org.bukkit.inventory.ItemStack;
  */
 public class GiveSlotCommand implements CommandExecutor {
 
-    private final SlotMachineListener slotMachineListener;
+    private final SlotService service;
 
-    public GiveSlotCommand(SlotMachineListener slotMachineListener) {
-        this.slotMachineListener = slotMachineListener;
+    public GiveSlotCommand(SlotService service) {
+        this.service = service;
     }
 
     @Override
@@ -54,7 +54,7 @@ public class GiveSlotCommand implements CommandExecutor {
             return true;
         }
 
-        ItemStack item = slotMachineListener.createSlotSignItem();
+        ItemStack item = service.createSlotSignItem();
         target.getInventory().addItem(item);
         sender.sendMessage(ChatColor.GOLD + "スロットマシン看板を " + target.getName() + " に付与しました。");
         return true;

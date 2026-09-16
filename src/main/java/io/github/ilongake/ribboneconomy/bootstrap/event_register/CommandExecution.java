@@ -11,6 +11,8 @@ import io.github.ilongake.ribboneconomy.feature.money.MoneyCommand;
 import io.github.ilongake.ribboneconomy.feature.money.PayCommand;
 import io.github.ilongake.ribboneconomy.feature.quest.QuestCommand;
 import io.github.ilongake.ribboneconomy.feature.quest.QuestManager;
+import io.github.ilongake.ribboneconomy.feature.slot.GiveSlotCommand;
+import io.github.ilongake.ribboneconomy.feature.slot.SlotService;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class CommandExecution {
@@ -19,13 +21,15 @@ public class CommandExecution {
     private final JobManager jobs;
     private final QuestManager quest;
     private final DataManager data;
+    private final SlotService slotService;
 
-    public CommandExecution(JavaPlugin plugin, EconomyService economy, JobManager jobs, QuestManager quest, DataManager data) {
+    public CommandExecution(JavaPlugin plugin, EconomyService economy, JobManager jobs, QuestManager quest, DataManager data, SlotService slotService) {
         this.plugin = plugin;
         this.economy = economy;
         this.jobs = jobs;
         this.quest = quest;
         this.data = data;
+        this.slotService = slotService;
     }
 
     public void setCommand(){
@@ -73,6 +77,12 @@ public class CommandExecution {
         plugin.getCommand("quest").setExecutor(
                 new QuestCommand(
                         quest
+                )
+        );
+        //slot
+        plugin.getCommand("giveslot").setExecutor(
+                new GiveSlotCommand(
+                        slotService
                 )
         );
     }

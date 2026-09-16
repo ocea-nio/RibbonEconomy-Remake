@@ -12,6 +12,9 @@ import io.github.ilongake.ribboneconomy.feature.money.ExchangeService;
 import io.github.ilongake.ribboneconomy.feature.money.MoneyListener;
 import io.github.ilongake.ribboneconomy.feature.quest.QuestCreateListener;
 import io.github.ilongake.ribboneconomy.feature.quest.QuestManager;
+import io.github.ilongake.ribboneconomy.feature.slot.EconomyBridge;
+import io.github.ilongake.ribboneconomy.feature.slot.SlotMachineListener;
+import io.github.ilongake.ribboneconomy.feature.slot.SlotService;
 import io.github.ilongake.ribboneconomy.feature.villager.VillagerShopListener;
 import io.github.ilongake.ribboneconomy.listener.PlayerQuitListener;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -24,8 +27,13 @@ public class ListenerExecution {
     private final QuestManager quest;
     private final ExchangeService exchangeService;
     private final DataManager dataManager;
+    private final SlotService slotService;
 
-    public ListenerExecution(JavaPlugin plugin, EconomyService economy, JobManager jobs, RewardManager reward, QuestManager quest,DataManager dataManager) {
+    public ListenerExecution(
+            JavaPlugin plugin, EconomyService economy, JobManager jobs,
+            RewardManager reward, QuestManager quest,DataManager dataManager,
+            SlotService slotService
+    ) {
         this.plugin = plugin;
         this.economy = economy;
         this.jobs = jobs;
@@ -33,6 +41,7 @@ public class ListenerExecution {
         this.quest = quest;
         this.exchangeService = new ExchangeService(economy);
         this.dataManager = dataManager;
+        this.slotService = slotService;
     }
     public void setListener(){
         //join-and-quit
@@ -104,6 +113,16 @@ public class ListenerExecution {
                         quest,
                         economy,
                         jobs
+                ),
+                plugin
+        );
+        //slot
+        EconomyBridge economyBridge = new EconomyBridge(economy);
+        plugin.getServer().getPluginManager().registerEvents(
+                new SlotMachineListener(
+                        plugin,
+                        economyBridge,
+                        slotService
                 ),
                 plugin
         );

@@ -10,6 +10,7 @@ import io.github.ilongake.ribboneconomy.feature.jobs.farmer.FoodBuffListener;
 import io.github.ilongake.ribboneconomy.feature.jobs.farmer.FoodBuffManager;
 import io.github.ilongake.ribboneconomy.feature.jobs.rewards.RewardManager;
 import io.github.ilongake.ribboneconomy.feature.quest.QuestManager;
+import io.github.ilongake.ribboneconomy.feature.slot.SlotService;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -27,10 +28,11 @@ public class BootstrapWithMyPlugin {
         JobManager job = new JobManager(data);
         RewardManager reward = new RewardManager(plugin);
         quest = new QuestManager(plugin,economy);
+        SlotService slotService = new SlotService(plugin,economy);
 
         //コマンド,イベント登録
-        CommandExecution commandExecution = new CommandExecution(plugin,economy,job, quest,data);
-        ListenerExecution listenerExecution = new ListenerExecution(plugin,economy,job,reward,quest,data);
+        CommandExecution commandExecution = new CommandExecution(plugin,economy,job, quest,data,slotService);
+        ListenerExecution listenerExecution = new ListenerExecution(plugin,economy,job,reward,quest,data,slotService);
 
 
         commandExecution.setCommand();
