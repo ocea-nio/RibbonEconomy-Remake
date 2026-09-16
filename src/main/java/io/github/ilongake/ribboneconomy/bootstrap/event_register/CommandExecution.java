@@ -1,6 +1,8 @@
 package io.github.ilongake.ribboneconomy.bootstrap.event_register;
 
+import io.github.ilongake.ribboneconomy.core.DataManager;
 import io.github.ilongake.ribboneconomy.core.EconomyService;
+import io.github.ilongake.ribboneconomy.feature.jobs.command.JobAdminCommand;
 import io.github.ilongake.ribboneconomy.feature.jobs.command.JobCommand;
 import io.github.ilongake.ribboneconomy.feature.jobs.JobManager;
 import io.github.ilongake.ribboneconomy.feature.money.BalanceTopCommand;
@@ -16,12 +18,14 @@ public class CommandExecution {
     private final EconomyService economy;
     private final JobManager jobs;
     private final QuestManager quest;
+    private final DataManager data;
 
-    public CommandExecution(JavaPlugin plugin, EconomyService economy, JobManager jobs, QuestManager quest) {
+    public CommandExecution(JavaPlugin plugin, EconomyService economy, JobManager jobs, QuestManager quest, DataManager data) {
         this.plugin = plugin;
         this.economy = economy;
         this.jobs = jobs;
         this.quest = quest;
+        this.data = data;
     }
 
     public void setCommand(){
@@ -53,6 +57,12 @@ public class CommandExecution {
         plugin.getCommand("job").setExecutor(
                 new JobCommand(
                         jobs
+                )
+        );
+
+        plugin.getCommand("jobadmin").setExecutor(
+                new JobAdminCommand(
+                        jobs,data
                 )
         );
 

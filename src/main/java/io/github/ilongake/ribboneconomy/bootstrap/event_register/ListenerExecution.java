@@ -1,9 +1,11 @@
 package io.github.ilongake.ribboneconomy.bootstrap.event_register;
 
+import io.github.ilongake.ribboneconomy.core.DataManager;
 import io.github.ilongake.ribboneconomy.core.EconomyService;
 import io.github.ilongake.ribboneconomy.feature.jobs.JobManager;
 import io.github.ilongake.ribboneconomy.feature.jobs.JobsFeature;
 import io.github.ilongake.ribboneconomy.feature.jobs.rewards.RewardManager;
+import io.github.ilongake.ribboneconomy.feature.join_and_quit.PlayerJoinListener;
 import io.github.ilongake.ribboneconomy.feature.mainmenu.RPGMenuListener;
 import io.github.ilongake.ribboneconomy.feature.money.ExchangeGuiListener;
 import io.github.ilongake.ribboneconomy.feature.money.ExchangeService;
@@ -11,6 +13,7 @@ import io.github.ilongake.ribboneconomy.feature.money.MoneyListener;
 import io.github.ilongake.ribboneconomy.feature.quest.QuestCreateListener;
 import io.github.ilongake.ribboneconomy.feature.quest.QuestManager;
 import io.github.ilongake.ribboneconomy.feature.villager.VillagerShopListener;
+import io.github.ilongake.ribboneconomy.listener.PlayerQuitListener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class ListenerExecution {
@@ -39,7 +42,8 @@ public class ListenerExecution {
                         new PlayerJoinListener(
                                 dataManager,
                                 economy
-                        )
+                        ),
+                        plugin
                 );
 
         plugin.getServer()
@@ -47,7 +51,8 @@ public class ListenerExecution {
                 .registerEvents(
                         new PlayerQuitListener(
                                 dataManager
-                        )
+                        ),
+                        plugin
                 );
                 
         //money

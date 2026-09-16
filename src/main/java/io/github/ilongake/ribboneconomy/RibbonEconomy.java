@@ -7,7 +7,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class RibbonEconomy extends JavaPlugin {
     private BootstrapWithMyPlugin myPlugin;
-
     @Override
     public void onDisable(){
         getLogger().info(String.format("[%s] Disabled Version %s", getDescription().getName(), getDescription().getVersion()));

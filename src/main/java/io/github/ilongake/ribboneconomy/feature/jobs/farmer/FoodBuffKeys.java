@@ -1,4 +1,4 @@
-package io.github.ilongake.ribboneconomy.farmer;
+package io.github.ilongake.ribboneconomy.feature.jobs.farmer;
 
 import org.bukkit.NamespacedKey;
 import org.bukkit.persistence.PersistentDataType;

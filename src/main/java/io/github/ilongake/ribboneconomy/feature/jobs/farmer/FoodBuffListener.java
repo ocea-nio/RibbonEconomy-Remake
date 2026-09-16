@@ -1,4 +1,4 @@
-package io.github.ilongake.ribboneconomy.farmer;
+package io.github.ilongake.ribboneconomy.feature.jobs.farmer;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -66,7 +66,7 @@ public class FoodBuffListener implements Listener {
          */
 
         if (!foodBuffManager.isSpecialFood(
-                result.getType()
+                result
         )) {
             return;
         }
@@ -153,7 +153,7 @@ public class FoodBuffListener implements Listener {
          */
 
         if (!foodBuffManager.isSpecialFood(
-                result.getType()
+                result
         )) {
             return;
         }

@@ -62,7 +62,7 @@ public class RewardManager {
         }
         for (String entity : section.getKeys(false)) {
             double amount = section.getDouble(entity + ".amount");
-            rewards.put(EntityType.fromName(entity), amount);
+            rewards.put(EntityType.fromName(entity.toUpperCase()), amount);
         }
         return rewards;
     }

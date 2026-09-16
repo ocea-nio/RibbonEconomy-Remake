@@ -1,8 +1,8 @@
-package io.github.ilongake.ribboneconomy.listener;
+package io.github.ilongake.ribboneconomy.feature.join_and_quit;
 
 import io.github.ilongake.ribboneconomy.core.DataManager;
 import io.github.ilongake.ribboneconomy.core.EconomyService;
-import io.github.ilongake.ribboneconomy.farmer.FoodBuffManager;
+//import io.github.ilongake.ribboneconomy.farmer.FoodBuffManager;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -15,18 +15,18 @@ public class PlayerJoinListener implements Listener {
 
     private final DataManager dataManager;
     private final EconomyService economy;
-    private final FoodBuffManager foodBuffManager;
+//    private final FoodBuffManager foodBuffManager;
 
 
     public PlayerJoinListener(
             DataManager dataManager,
-            EconomyService economy,
-            FoodBuffManager foodBuffManager
+            EconomyService economy
+//            FoodBuffManager foodBuffManager
     ) {
 
         this.dataManager = dataManager;
         this.economy = economy;
-        this.foodBuffManager = foodBuffManager;
+//        this.foodBuffManager = foodBuffManager;
     }
 
 
@@ -64,9 +64,9 @@ public class PlayerJoinListener implements Listener {
         // → パッシブなし
         // ======================================================
 
-        foodBuffManager.applyLevel50Passive(
-                player
-        );
+//        foodBuffManager.applyLevel50Passive(
+//                player
+//        );
 
 
         // ======================================================

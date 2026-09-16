@@ -1,7 +1,8 @@
-package io.github.ilongake.ribboneconomy.farmer;
+package io.github.ilongake.ribboneconomy.feature.jobs.farmer;
 
 import io.github.ilongake.ribboneconomy.feature.jobs.JobManager;
 
+import io.github.ilongake.ribboneconomy.feature.jobs.JobType;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
