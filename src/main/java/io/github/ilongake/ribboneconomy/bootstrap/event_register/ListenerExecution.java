@@ -20,16 +20,36 @@ public class ListenerExecution {
     private final RewardManager reward;
     private final QuestManager quest;
     private final ExchangeService exchangeService;
+    private final DataManager dataManager;
 
-    public ListenerExecution(JavaPlugin plugin, EconomyService economy, JobManager jobs, RewardManager reward, QuestManager quest) {
+    public ListenerExecution(JavaPlugin plugin, EconomyService economy, JobManager jobs, RewardManager reward, QuestManager quest,DataManager dataManager) {
         this.plugin = plugin;
         this.economy = economy;
         this.jobs = jobs;
         this.reward = reward;
         this.quest = quest;
         this.exchangeService = new ExchangeService(economy);
+        this.dataManager = dataManager;
     }
     public void setListener(){
+        //join-and-quit
+        plugin.getServer()
+                .getPluginManager()
+                .registerEvents(
+                        new PlayerJoinListener(
+                                dataManager,
+                                economy
+                        )
+                );
+
+        plugin.getServer()
+                .getPluginManager()
+                .registerEvents(
+                        new PlayerQuitListener(
+                                dataManager
+                        )
+                );
+                
         //money
         plugin.getServer()
                 .getPluginManager()

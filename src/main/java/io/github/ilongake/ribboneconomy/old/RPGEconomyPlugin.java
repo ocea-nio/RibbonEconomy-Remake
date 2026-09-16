@@ -127,22 +127,6 @@ public final class RPGEconomyPlugin extends JavaPlugin {
                 )
         );
 
-
-
-        // =========================
-        // 職業GUI
-        // =========================
-
-        getServer()
-                .getPluginManager()
-                .registerEvents(
-                        new JobGUIListener(
-                                jobManager
-                        ),
-                        this
-                );
-
-
         // =========================
         // QuestManager
         // =========================

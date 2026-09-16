@@ -144,13 +144,6 @@ public class FoodBuffManager {
      * ==========================================================
      */
 
-    public boolean isSpecialFood(
-            Material material
-    ) {
-
-        return material == Material.BREAD;
-    }
-
 
     /*
      * ==========================================================
