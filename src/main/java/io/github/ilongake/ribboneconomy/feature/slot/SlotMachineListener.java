@@ -48,46 +48,22 @@ import java.util.concurrent.ConcurrentHashMap;
 public class  SlotMachineListener implements Listener {
 
     // ==== 調整可能なパラメータ ====
-    private static final double BET_AMOUNT = 100.0; // 1回の賭け金
+    private  final double BET_AMOUNT; // 1回の賭け金
 
-    private static final double JACKPOT_CHANCE = 0.01; // 777ぞろ目
-    private static final double ZOROME_CHANCE = 0.07;  // 777以外のぞろ目
-    private static final double PAIR_CHANCE = 0.15;    // 隣り合う2つが同じ
 
-    // 期待配当 = 0.15*100 + 0.07*300 + 0.01*5000 = 86G (賭け金100Gに対し、胴元が約14%の取り分)
-    private static final double JACKPOT_PAYOUT = 5000.0;
-    private static final double ZOROME_PAYOUT = 300.0;
-    private static final double PAIR_PAYOUT = 100.0;
-
-    private static final int SPIN_TICKS = 3;  // 何tickごとに数字を切り替えるか
-    private static final int SPIN_COUNT = 18; // 何回切り替えたら止まるか(演出の長さ)
-
-    private static final int JACKPOT_BLINK_TICKS = 2;   // 虹色点滅の切り替え間隔(tick)
-    private static final int JACKPOT_BLINK_COUNT = 30;  // 虹色点滅の回数
-
-    private static final ChatColor[] RAINBOW = {
-            ChatColor.RED, ChatColor.GOLD, ChatColor.YELLOW,
-            ChatColor.GREEN, ChatColor.AQUA, ChatColor.LIGHT_PURPLE
-    };
-
-    private enum Result { LOSE, PAIR, ZOROME, JACKPOT }
-
-    private final JavaPlugin plugin;
     private final EconomyBridge economy;
     private final SlotService service;
-    private final NamespacedKey itemKey;   // アイテム側の識別タグ
     private final NamespacedKey blockKey;  // 設置後のブロック側の識別タグ
-    private final Random random = new Random();
 
     // 現在演出中(回転中/点滅中)の看板の位置。連打で二重に抽選されるのを防ぐ
-    private final Set<Location> spinningSigns = ConcurrentHashMap.newKeySet();
+    private final Set<Location> spinningSigns;
 
-    public SlotMachineListener(JavaPlugin plugin,EconomyBridge bridge ,SlotService service) {
-        this.plugin = plugin;
+    public SlotMachineListener( EconomyBridge bridge , SlotService service) {
         this.economy = bridge;
-        this.itemKey = new NamespacedKey(plugin, "slot_machine_item");
-        this.blockKey = new NamespacedKey(plugin, "slot_machine_block");
+        this.blockKey = service.getBlockKey();
         this.service = service;
+        this.spinningSigns = service.getSpinningSigns();
+        this.BET_AMOUNT = service.getBetAmount();
     }
 
 

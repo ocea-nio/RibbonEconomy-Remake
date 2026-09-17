@@ -60,6 +60,16 @@ public class SlotService {
         this.blockKey = new NamespacedKey(plugin, "slot_machine_block");
     }
 
+    public Set<Location> getSpinningSigns() {
+        return spinningSigns;
+    }
+    public double getBetAmount(){
+        return BET_AMOUNT;
+    }
+
+    public NamespacedKey getBlockKey(){
+        return blockKey;
+    }
     // =====================================================================
     // アイテム生成
     // =====================================================================

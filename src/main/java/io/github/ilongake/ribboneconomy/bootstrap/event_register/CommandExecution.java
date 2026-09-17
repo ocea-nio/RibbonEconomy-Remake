@@ -5,6 +5,9 @@ import io.github.ilongake.ribboneconomy.core.EconomyService;
 import io.github.ilongake.ribboneconomy.feature.jobs.command.JobAdminCommand;
 import io.github.ilongake.ribboneconomy.feature.jobs.command.JobCommand;
 import io.github.ilongake.ribboneconomy.feature.jobs.JobManager;
+import io.github.ilongake.ribboneconomy.feature.market.TradeCommand;
+import io.github.ilongake.ribboneconomy.feature.market.TradeGUI;
+import io.github.ilongake.ribboneconomy.feature.market.TradeManager;
 import io.github.ilongake.ribboneconomy.feature.money.BalanceTopCommand;
 import io.github.ilongake.ribboneconomy.feature.money.ExchangeCommand;
 import io.github.ilongake.ribboneconomy.feature.money.MoneyCommand;
@@ -22,14 +25,22 @@ public class CommandExecution {
     private final QuestManager quest;
     private final DataManager data;
     private final SlotService slotService;
+    private final TradeManager trade;
+    private final TradeGUI tradeGUI;
 
-    public CommandExecution(JavaPlugin plugin, EconomyService economy, JobManager jobs, QuestManager quest, DataManager data, SlotService slotService) {
+    public CommandExecution(
+            JavaPlugin plugin, EconomyService economy, JobManager jobs, QuestManager quest,
+            DataManager data, SlotService slotService, TradeManager trade, TradeGUI tradeGUI
+
+    ) {
         this.plugin = plugin;
         this.economy = economy;
         this.jobs = jobs;
         this.quest = quest;
         this.data = data;
         this.slotService = slotService;
+        this.trade = trade;
+        this.tradeGUI = tradeGUI;
     }
 
     public void setCommand(){
@@ -83,6 +94,12 @@ public class CommandExecution {
         plugin.getCommand("giveslot").setExecutor(
                 new GiveSlotCommand(
                         slotService
+                )
+        );
+        //trade
+        plugin.getCommand("market").setExecutor(
+                new TradeCommand(
+                        trade,tradeGUI
                 )
         );
     }

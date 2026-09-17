@@ -7,6 +7,9 @@ import io.github.ilongake.ribboneconomy.feature.jobs.JobsFeature;
 import io.github.ilongake.ribboneconomy.feature.jobs.rewards.RewardManager;
 import io.github.ilongake.ribboneconomy.feature.join_and_quit.PlayerJoinListener;
 import io.github.ilongake.ribboneconomy.feature.mainmenu.RPGMenuListener;
+import io.github.ilongake.ribboneconomy.feature.market.TradeGUI;
+import io.github.ilongake.ribboneconomy.feature.market.TradeListener;
+import io.github.ilongake.ribboneconomy.feature.market.TradeManager;
 import io.github.ilongake.ribboneconomy.feature.money.ExchangeGuiListener;
 import io.github.ilongake.ribboneconomy.feature.money.ExchangeService;
 import io.github.ilongake.ribboneconomy.feature.money.MoneyListener;
@@ -28,11 +31,13 @@ public class ListenerExecution {
     private final ExchangeService exchangeService;
     private final DataManager dataManager;
     private final SlotService slotService;
+    private final TradeManager trade;
+    private final TradeGUI tradeGUI;
 
     public ListenerExecution(
             JavaPlugin plugin, EconomyService economy, JobManager jobs,
-            RewardManager reward, QuestManager quest,DataManager dataManager,
-            SlotService slotService
+            RewardManager reward, QuestManager quest, DataManager dataManager,
+            SlotService slotService, TradeManager trade, TradeGUI tradeGUI
     ) {
         this.plugin = plugin;
         this.economy = economy;
@@ -42,6 +47,8 @@ public class ListenerExecution {
         this.exchangeService = new ExchangeService(economy);
         this.dataManager = dataManager;
         this.slotService = slotService;
+        this.trade = trade;
+        this.tradeGUI = tradeGUI;
     }
     public void setListener(){
         //join-and-quit
@@ -120,9 +127,19 @@ public class ListenerExecution {
         EconomyBridge economyBridge = new EconomyBridge(economy);
         plugin.getServer().getPluginManager().registerEvents(
                 new SlotMachineListener(
-                        plugin,
                         economyBridge,
                         slotService
+                ),
+                plugin
+        );
+
+        //trade
+        TradeGUI tradeGUI = new TradeGUI(trade);
+        plugin.getServer().getPluginManager().registerEvents(
+                new TradeListener(
+                        plugin,
+                        tradeGUI,
+                        trade
                 ),
                 plugin
         );
