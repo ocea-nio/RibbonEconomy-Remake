@@ -35,6 +35,7 @@ public class EconomyService {
 
     public boolean withdraw(UUID player, double amount) {
         if (amount < 0){return false;}
+        if (amount > getBalance(player)){return false;}
         return economy.withdrawPlayer(uuidTranslator(player),amount).transactionSuccess();
     }
 

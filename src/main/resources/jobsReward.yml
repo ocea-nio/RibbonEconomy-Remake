@@ -1,6 +1,6 @@
 JobsReward:
   #農家
-  farmer:
+  FARMER:
     wheat:
       amount: 1.0
     carrots:
@@ -16,9 +16,42 @@ JobsReward:
     sweet_berry_bush:
       amount: 2.0
   #ハンター
-  hunter:
+  HUNTER:
+    zombie:
+      amount: 5.0
+    husk:
+      amount: 5.5
+    drowned:
+      amount: 5.5
+    skeleton:
+      amount: 7.0
+    bogged:
+      amount: 7.5
+    parched:
+      amount: 7.5
+    stray:
+      amount: 8.5
+    wither_skeleton:
+      amount: 12.5
+    creeper:
+      amount: 8.0
+    spider:
+      amount: 5.0
+    cave_spider:
+      amount: 6.5
+    enderman:
+      amount: 10.0
+    blaze:
+      amount: 10.0
+    breeze:
+      amount: 8.5
+    ender_dragon:
+      amount: 240.0
+    wither:
+      amount: 270.0
+
   #木こり
-  lumberjack:
+  LUMBERJACK:
     oak_log:
       amount: 5.0
     oak_wood:
@@ -53,7 +86,7 @@ JobsReward:
       amount: 5.0
 
   #鉱夫
-  miner:
+  MINER:
     #normal
     coal_ore:
       amount: 5.0

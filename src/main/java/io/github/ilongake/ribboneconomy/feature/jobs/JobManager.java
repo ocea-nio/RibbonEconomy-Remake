@@ -1,8 +1,8 @@
 package io.github.ilongake.ribboneconomy.feature.jobs;
 
 import io.github.ilongake.ribboneconomy.core.DataManager;
-import io.github.ilongake.ribboneconomy.farmer.FoodBuffManager;
 
+import io.github.ilongake.ribboneconomy.feature.jobs.farmer.FoodBuffManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -61,24 +61,16 @@ public class JobManager {
      * ここでは満腹度+4は発生しない。
      */
 
-    private void updatePassive(
-            UUID uuid
-    ) {
-
+    private void updatePassive(UUID uuid) {
         if (foodBuffManager == null) {
             return;
         }
-
-        Player player =
-                Bukkit.getPlayer(uuid);
+        Player player = Bukkit.getPlayer(uuid);
 
         if (player == null) {
             return;
         }
-
-        foodBuffManager.applyLevel50Passive(
-                player
-        );
+        foodBuffManager.applyLevel50Passive(player);
     }
 
 
@@ -128,7 +120,6 @@ public class JobManager {
 
         JobData data =
                 dataManager.getPlayerData(uuid);
-
         if (data == null) {
             return JobType.NONE;
         }
@@ -203,7 +194,6 @@ public class JobManager {
          *
          * → 最大体力+4を付与
          */
-
         updatePassive(uuid);
     }
 

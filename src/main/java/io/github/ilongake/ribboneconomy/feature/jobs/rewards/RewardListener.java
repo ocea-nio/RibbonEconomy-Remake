@@ -1,34 +1,32 @@
 package io.github.ilongake.ribboneconomy.feature.jobs.rewards;
 
 import io.github.ilongake.ribboneconomy.core.EconomyService;
+import io.github.ilongake.ribboneconomy.feature.jobs.JobManager;
+import io.github.ilongake.ribboneconomy.feature.jobs.JobType;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.Ageable;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class RewardListener implements Listener {
     private final EconomyService economy;
     private final RewardManager rewards;
     private final JobManager jobManager;
+    private final Map<Material, Double> miningRewards;
+    private final Map<Material, Double> farmingRewards;
+    private final Map<Material, Double> lumberjackRewards;
+    private final Map<EntityType, Double> hunterRewards;
 
-    // 採掘師の報酬
-    private final Map<Material, Double> miningRewards =
-            rewards.getBreakReward(JobType.MINER);
-
-    // 農家の報酬
-    private final Map<Material, Double> farmingRewards =
-            rewards.getBreakReward(JobType.FARMER);
-    // 木こりの報酬
-    private final Map<Material, Double> lumberjackRewards =
-            rewards.getBreakReward(JobType.LUMBERJACK);
 
     public RewardListener(
             JobManager jobManager,
@@ -38,7 +36,14 @@ public class RewardListener implements Listener {
         this.economy = economy;
         this.rewards = rewards;
         this.jobManager = jobManager;
-        }
+        // 採掘師の報酬
+        this.miningRewards = rewards.getBreakReward(JobType.MINER);
+        // 農家の報酬
+        this.farmingRewards = rewards.getBreakReward(JobType.FARMER);
+        // 木こりの報酬
+        this.lumberjackRewards = rewards.getBreakReward(JobType.LUMBERJACK);
+        this.hunterRewards = rewards.getKillReward(JobType.HUNTER);
+    }
 
     @EventHandler
     public void onBlockBreak(
@@ -52,12 +57,9 @@ public class RewardListener implements Listener {
         // プレイヤーデータ取得
         // =========================
 
-        PlayerData data =
-                dataManager.getPlayerData(
-                        player.getUniqueId()
-                );
+        JobType job = jobManager.getJob(player.getUniqueId());
 
-        if (data == null) {
+        if (job == null) {
             return;
         }
 
@@ -75,7 +77,7 @@ public class RewardListener implements Listener {
         // 採掘師
         // =========================
 
-        if (data.getJobType()
+        if (job
                 == JobType.MINER) {
 
             handleMining(
@@ -91,7 +93,7 @@ public class RewardListener implements Listener {
         // 農家
         // =========================
 
-        if (data.getJobType()
+        if (job
                 == JobType.FARMER) {
 
             handleFarming(
@@ -107,7 +109,7 @@ public class RewardListener implements Listener {
         // 木こり
         // =========================
 
-        if (data.getJobType()
+        if (job
                 == JobType.LUMBERJACK) {
 
             handleLumberjack(
@@ -116,6 +118,22 @@ public class RewardListener implements Listener {
                     material
             );
         }
+    }
+
+    @EventHandler
+    public void onKillEnemy(EntityDeathEvent event){
+        Player player = event.getEntity().getKiller();
+        // プレイヤーが倒していなければ終了
+        if (player == null) {
+            return;
+        }
+        JobType job = jobManager.getJob(player.getUniqueId());
+        // ハンター職か確認
+        if (job != JobType.HUNTER) {
+            return;
+        }
+        EntityType entityType = event.getEntity().getType();
+        handleHunter(player,entityType);
     }
 
     /**
@@ -179,10 +197,7 @@ public class RewardListener implements Listener {
                 rewardPerItem
                         * dropAmount;
 
-        dataManager.addBalance(
-                player.getUniqueId(),
-                totalReward
-        );
+        economy.deposit(player.getUniqueId(),totalReward);
 
         // =========================
         // 通知
@@ -294,10 +309,7 @@ public class RewardListener implements Listener {
         // お金を追加
         // =========================
 
-        dataManager.addBalance(
-                player.getUniqueId(),
-                totalReward
-        );
+        economy.deposit(player.getUniqueId(),totalReward);
 
         // =========================
         // レベルアップ通知
@@ -405,10 +417,7 @@ public class RewardListener implements Listener {
         // お金を追加
         // =========================
 
-        dataManager.addBalance(
-                player.getUniqueId(),
-                totalReward
-        );
+        economy.deposit(player.getUniqueId(),totalReward);
 
         // =========================
         // 通知
@@ -421,5 +430,54 @@ public class RewardListener implements Listener {
                         + dropAmount
                         + "個)"
         );
+    }
+
+    private void handleHunter(Player killer,EntityType target){
+        double reward = hunterRewards.get(target);
+        economy.deposit(killer,reward);
+        // メッセージ表示
+        killer.sendMessage(
+                "§a[ハンター] §f"
+                        + getMobName(target)
+                        + "を倒した！ §6+"
+                        + reward
+                        + "円"
+        );
+    }
+
+    /**
+     * Mobの表示名を取得
+     */
+    private String getMobName(EntityType entityType) {
+
+        switch (entityType) {
+
+            case ZOMBIE:
+                return "ゾンビ";
+
+            case SKELETON:
+                return "スケルトン";
+
+            case CREEPER:
+                return "クリーパー";
+
+            case SPIDER:
+                return "クモ";
+
+            case ENDERMAN:
+                return "エンダーマン";
+
+            case BLAZE:
+                return "ブレイズ";
+
+            case WITHER_SKELETON:
+                return "ウィザースケルトン";
+
+            case ENDER_DRAGON:
+                return "エンダードラゴン";
+
+            default:
+                return "Mob";
+        }
     }
 }

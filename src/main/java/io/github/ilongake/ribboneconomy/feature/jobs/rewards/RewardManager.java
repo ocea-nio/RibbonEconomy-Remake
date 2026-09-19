@@ -1,13 +1,12 @@
 package io.github.ilongake.ribboneconomy.feature.jobs.rewards;
 
+import io.github.ilongake.ribboneconomy.feature.jobs.JobType;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Monster;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -45,8 +44,12 @@ public class RewardManager {
             return rewards;
         }
         for (String block : section.getKeys(false)) {
+            Material material = Material.matchMaterial(block);
+            if (material == null) {
+                continue;
+            }
             double amount = section.getDouble(block + ".amount");
-            rewards.put(Material.matchMaterial(block), amount);
+            rewards.put(material, amount);
         }
         return rewards;
     }
@@ -59,7 +62,7 @@ public class RewardManager {
         }
         for (String entity : section.getKeys(false)) {
             double amount = section.getDouble(entity + ".amount");
-            rewards.put(EntityType.fromName(entity), amount);
+            rewards.put(EntityType.fromName(entity.toUpperCase()), amount);
         }
         return rewards;
     }
