@@ -73,7 +73,6 @@ public class JobManager {
         foodBuffManager.applyLevel50Passive(player);
     }
 
-
     /*
      * ==========================================================
      * Lv.50到達時パッシブ発動
