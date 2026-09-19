@@ -45,7 +45,7 @@ public class RewardListener implements Listener {
         this.hunterRewards = rewards.getKillReward(JobType.HUNTER);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onBlockBreak(
             BlockBreakEvent event
     ) {
