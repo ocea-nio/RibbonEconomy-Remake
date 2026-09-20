@@ -197,6 +197,90 @@ public class MoneyCommand implements CommandExecutor {
             return true;
         }
 
+        if (args[0].equalsIgnoreCase("delete")){
+            if (!sender.isOp()) {
+
+                sender.sendMessage(
+                        ChatColor.RED
+                                + "このコマンドはOPのみ使用できます。"
+                );
+
+                return true;
+            }
+
+            if (args.length < 3) {
+
+                sender.sendMessage(
+                        ChatColor.RED
+                                + "使い方: /money delete <プレイヤー> <金額>"
+                );
+
+                return true;
+            }
+            OfflinePlayer target =
+                    Bukkit.getOfflinePlayer(
+                            args[1]
+                    );
+            /*
+             * 金額を数字に変換
+             */
+
+            double amount;
+
+            try {
+
+                amount =
+                        Double.parseDouble(
+                                args[2]
+                        );
+
+            } catch (NumberFormatException e) {
+
+                sender.sendMessage(
+                        ChatColor.RED
+                                + "金額は数字で入力してください。"
+                );
+
+                return true;
+            }
+
+
+            /*
+             * 0以下は禁止
+             */
+
+            if (amount <= 0) {
+
+                sender.sendMessage(
+                        ChatColor.RED
+                                + "金額は1円以上にしてください。"
+                );
+
+                return true;
+            }
+
+            /*
+             * プレイヤーデータが読み込まれているか確認
+             */
+
+            economy.forceWithdraw(target.getUniqueId(),amount);
+
+            /*
+             * 実行者にメッセージ
+             */
+
+            sender.sendMessage(
+                    ChatColor.GREEN
+                            + target.getName()
+                            + " から "
+                            + String.format(
+                            "%,.0f",
+                            amount
+                    )
+                            + "円を奪いました。"
+            );
+        }
+
 
         /*
          * =========================
@@ -209,11 +293,17 @@ public class MoneyCommand implements CommandExecutor {
                         + "使い方: /money"
         );
 
-        sender.sendMessage(
-                ChatColor.RED
-                        + "/money give <プレイヤー> <金額>"
-        );
+        if (!sender.isOp()) {
+            sender.sendMessage(
+                    ChatColor.RED
+                            + "/money give <プレイヤー> <金額>"
+            );
 
+            sender.sendMessage(
+                    ChatColor.RED
+                            + "/money delete <プレイヤー> <金額>"
+            );
+        }
         return true;
     }
 }

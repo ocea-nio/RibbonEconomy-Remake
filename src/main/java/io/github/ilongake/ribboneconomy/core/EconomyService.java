@@ -39,6 +39,11 @@ public class EconomyService {
         return economy.withdrawPlayer(uuidTranslator(player),amount).transactionSuccess();
     }
 
+    public boolean forceWithdraw(UUID player, double amount){
+        if (amount < 0){return false;}
+        return economy.withdrawPlayer(uuidTranslator(player),amount).transactionSuccess();
+    }
+
     public boolean transfer(UUID from, UUID to, double amount) {
         if (from == to) return false;
         if (amount < 0) return false;
