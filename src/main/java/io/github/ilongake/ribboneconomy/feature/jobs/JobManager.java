@@ -2,10 +2,6 @@ package io.github.ilongake.ribboneconomy.feature.jobs;
 
 import io.github.ilongake.ribboneconomy.core.DataManager;
 
-import io.github.ilongake.ribboneconomy.feature.jobs.farmer.FoodBuffManager;
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-
 import java.util.UUID;
 
 public class JobManager {
@@ -18,7 +14,6 @@ public class JobManager {
      * FoodBuffManager側からJobManagerを使用しているため、
      * コンストラクタで直接渡さず後から設定する。
      */
-    private FoodBuffManager foodBuffManager;
 
 
     /*
@@ -37,21 +32,6 @@ public class JobManager {
 
     /*
      * ==========================================================
-     * FoodBuffManager設定
-     * ==========================================================
-     */
-
-    public void setFoodBuffManager(
-            FoodBuffManager foodBuffManager
-    ) {
-
-        this.foodBuffManager =
-                foodBuffManager;
-    }
-
-
-    /*
-     * ==========================================================
      * Lv.50パッシブ更新
      * ==========================================================
      *
@@ -61,17 +41,17 @@ public class JobManager {
      * ここでは満腹度+4は発生しない。
      */
 
-    private void updatePassive(UUID uuid) {
-        if (foodBuffManager == null) {
-            return;
-        }
-        Player player = Bukkit.getPlayer(uuid);
-
-        if (player == null) {
-            return;
-        }
-        foodBuffManager.applyLevel50Passive(player);
-    }
+//    private void updatePassive(UUID uuid) {
+//        if (foodBuffManager == null) {
+//            return;
+//        }
+//        Player player = Bukkit.getPlayer(uuid);
+//
+//        if (player == null) {
+//            return;
+//        }
+//        foodBuffManager.applyLevel50Passive(player);
+//    }
 
 
     /*
@@ -86,26 +66,26 @@ public class JobManager {
      * 満腹度 +4
      */
 
-    private void activateLevel50Passive(
-            UUID uuid
-    ) {
-
-        if (foodBuffManager == null) {
-            return;
-        }
-
-        Player player =
-                Bukkit.getPlayer(uuid);
-
-        if (player == null) {
-            return;
-        }
-
-        foodBuffManager
-                .applyLevel50PassiveWithFoodBonus(
-                        player
-                );
-    }
+//    private void activateLevel50Passive(
+//            UUID uuid
+//    ) {
+//
+//        if (foodBuffManager == null) {
+//            return;
+//        }
+//
+//        Player player =
+//                Bukkit.getPlayer(uuid);
+//
+//        if (player == null) {
+//            return;
+//        }
+//
+//        foodBuffManager
+//                .applyLevel50PassiveWithFoodBonus(
+//                        player
+//                );
+//    }
 
 
     /*
@@ -177,24 +157,7 @@ public class JobManager {
                 uuid
         );
 
-        /*
-         * ======================================================
-         * 職業変更後のパッシブ更新
-         * ======================================================
-         *
-         * FARMER Lv.50
-         * ↓
-         * MINER
-         *
-         * → 最大体力+4を削除
-         *
-         * MINER
-         * ↓
-         * FARMER Lv.50
-         *
-         * → 最大体力+4を付与
-         */
-        updatePassive(uuid);
+
     }
 
 
@@ -367,27 +330,27 @@ public class JobManager {
         /*
          * 現在の職業の場合
          */
-        if (getJob(uuid) == jobType) {
-
-            /*
-             * Lv.49以下 → Lv.50
-             *
-             * 実際にLv.50へ到達した場合だけ
-             * 満腹度+4を発生させる。
-             */
-            if (oldLevel < 50
-                    && level >= 50) {
-
-                activateLevel50Passive(uuid);
-
-            } else {
-
-                /*
-                 * それ以外は通常更新
-                 */
-                updatePassive(uuid);
-            }
-        }
+//        if (getJob(uuid) == jobType) {
+//
+//            /*
+//             * Lv.49以下 → Lv.50
+//             *
+//             * 実際にLv.50へ到達した場合だけ
+//             * 満腹度+4を発生させる。
+//             */
+//            if (oldLevel < 50
+//                    && level >= 50) {
+//
+//                activateLevel50Passive(uuid);
+//
+//            } else {
+//
+//                /*
+//                 * それ以外は通常更新
+//                 */
+//                updatePassive(uuid);
+//            }
+//        }
 
         return true;
     }
@@ -424,14 +387,6 @@ public class JobManager {
         }
 
         /*
-         * 変更前のレベル
-         */
-        int oldLevel =
-                data.getJobLevel(
-                        jobType
-                );
-
-        /*
          * 活動数追加
          */
         data.addJobProgress(
@@ -439,41 +394,33 @@ public class JobManager {
                 amount
         );
 
-        /*
-         * 変更後のレベル
-         */
-        int newLevel =
-                data.getJobLevel(
-                        jobType
-                );
-
-        /*
-         * レベルが変わった場合
-         */
-        if (oldLevel != newLevel) {
-
-            /*
-             * 現在の職業か確認
-             */
-            if (getJob(uuid) == jobType) {
-
-                /*
-                 * Lv.49以下 → Lv.50
-                 */
-                if (oldLevel < 50
-                        && newLevel >= 50) {
-
-                    activateLevel50Passive(uuid);
-
-                } else {
-
-                    /*
-                     * その他のレベル変化
-                     */
-                    updatePassive(uuid);
-                }
-            }
-        }
+//        /*
+//         * レベルが変わった場合
+//         */
+//        if (oldLevel != newLevel) {
+//
+//            /*
+//             * 現在の職業か確認
+//             */
+//            if (getJob(uuid) == jobType) {
+//
+//                /*
+//                 * Lv.49以下 → Lv.50
+//                 */
+//                if (oldLevel < 50
+//                        && newLevel >= 50) {
+//
+//                    activateLevel50Passive(uuid);
+//
+//                } else {
+//
+//                    /*
+//                     * その他のレベル変化
+//                     */
+//                    updatePassive(uuid);
+//                }
+//            }
+//        }
     }
 
 

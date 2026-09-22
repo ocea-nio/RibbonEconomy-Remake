@@ -2,7 +2,6 @@ package io.github.ilongake.ribboneconomy.feature.join_and_quit;
 
 import io.github.ilongake.ribboneconomy.core.DataManager;
 import io.github.ilongake.ribboneconomy.core.EconomyService;
-//import io.github.ilongake.ribboneconomy.farmer.FoodBuffManager;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -15,18 +14,15 @@ public class PlayerJoinListener implements Listener {
 
     private final DataManager dataManager;
     private final EconomyService economy;
-//    private final FoodBuffManager foodBuffManager;
 
 
     public PlayerJoinListener(
             DataManager dataManager,
             EconomyService economy
-//            FoodBuffManager foodBuffManager
     ) {
 
         this.dataManager = dataManager;
         this.economy = economy;
-//        this.foodBuffManager = foodBuffManager;
     }
 
 
@@ -47,26 +43,6 @@ public class PlayerJoinListener implements Listener {
         // ======================================================
 
         dataManager.loadPlayer(uuid);
-
-
-        // ======================================================
-        // Lv.50パッシブを自動更新
-        // ======================================================
-        //
-        // FARMER Lv.50
-        // → 最大体力 +4
-        // → 満腹度 +4
-        //
-        // FARMER Lv.50未満
-        // → パッシブなし
-        //
-        // FARMER以外
-        // → パッシブなし
-        // ======================================================
-
-//        foodBuffManager.applyLevel50Passive(
-//                player
-//        );
 
 
         // ======================================================

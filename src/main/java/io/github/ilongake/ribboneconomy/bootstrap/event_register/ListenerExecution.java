@@ -134,7 +134,6 @@ public class ListenerExecution {
         );
 
         //trade
-        TradeGUI tradeGUI = new TradeGUI(trade);
         plugin.getServer().getPluginManager().registerEvents(
                 new TradeListener(
                         plugin,

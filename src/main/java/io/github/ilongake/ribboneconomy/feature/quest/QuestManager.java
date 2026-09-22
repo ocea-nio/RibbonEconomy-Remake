@@ -368,7 +368,7 @@ public class QuestManager {
                 quest.getReward();
 
         // 受注者へ報酬を送金
-        economy.deposit(quest.getCreatorUuid(),reward);
+        economy.deposit(quest.getWorkerUuid(),reward);
 
         // 承認
         quest.setStatus(

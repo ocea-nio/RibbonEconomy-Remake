@@ -11,6 +11,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
@@ -45,7 +46,9 @@ public class RewardListener implements Listener {
         this.hunterRewards = rewards.getKillReward(JobType.HUNTER);
     }
 
-    @EventHandler
+    @EventHandler(
+            priority = EventPriority.HIGHEST
+    )
     public void onBlockBreak(
             BlockBreakEvent event
     ) {
@@ -120,7 +123,9 @@ public class RewardListener implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(
+            priority = EventPriority.HIGHEST
+    )
     public void onKillEnemy(EntityDeathEvent event){
         Player player = event.getEntity().getKiller();
         // プレイヤーが倒していなければ終了
@@ -199,6 +204,25 @@ public class RewardListener implements Listener {
 
         economy.deposit(player.getUniqueId(),totalReward);
 
+        int oldLevel =
+                jobManager.getJobLevel(
+                        player.getUniqueId(),
+                        JobType.MINER
+                );
+
+        jobManager.addJobProgress(
+                player.getUniqueId(),
+                JobType.MINER,
+                dropAmount
+        );
+
+        int newLevel =
+                jobManager.getJobLevel(
+                        player.getUniqueId(),
+                        JobType.MINER
+                );
+
+
         // =========================
         // 通知
         // =========================
@@ -210,6 +234,33 @@ public class RewardListener implements Listener {
                         + dropAmount
                         + "個)"
         );
+        // =========================
+        // レベルアップ通知
+        // =========================
+
+        if (newLevel > oldLevel) {
+
+            player.sendMessage("");
+
+            player.sendMessage(
+                    "§6§l職業レベルアップ！"
+            );
+
+            player.sendMessage(
+                    "§e採掘師 §fLv."
+                            + oldLevel
+                            + " §7→ §aLv."
+                            + newLevel
+            );
+
+            player.sendMessage(
+                    "§7採掘師としての活動を続けて"
+                            + "さらにレベルを上げよう！"
+            );
+
+            player.sendMessage("");
+        }
+
     }
 
     /**

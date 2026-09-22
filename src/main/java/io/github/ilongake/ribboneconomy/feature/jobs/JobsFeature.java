@@ -1,9 +1,9 @@
 package io.github.ilongake.ribboneconomy.feature.jobs;
 
 import io.github.ilongake.ribboneconomy.core.EconomyService;
-import io.github.ilongake.ribboneconomy.feature.jobs.farmer.FoodBuffKeys;
-import io.github.ilongake.ribboneconomy.feature.jobs.farmer.FoodBuffListener;
-import io.github.ilongake.ribboneconomy.feature.jobs.farmer.FoodBuffManager;
+import io.github.ilongake.ribboneconomy.feature.jobs.farmer.CookingStationGUI;
+import io.github.ilongake.ribboneconomy.feature.jobs.farmer.FarmerListener;
+import io.github.ilongake.ribboneconomy.feature.jobs.farmer.FarmerStation;
 import io.github.ilongake.ribboneconomy.feature.jobs.rewards.RewardListener;
 import io.github.ilongake.ribboneconomy.feature.jobs.rewards.RewardManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -21,8 +21,7 @@ public class JobsFeature {
     }
 
     public void jobsBootstrap(){
-        FoodBuffKeys.initialize(plugin);
-        FoodBuffManager farmer = new FoodBuffManager(job);
+
         // =========================
         // 職業GUI
         // =========================
@@ -45,16 +44,13 @@ public class JobsFeature {
                 );
 
         //farmer
+        FarmerStation farmerStation = new FarmerStation();
+        CookingStationGUI cookingStationGUI = new CookingStationGUI(plugin);
         plugin.getServer()
                 .getPluginManager()
                 .registerEvents(
-                        new FoodBuffListener(
-                                farmer
-                        ),plugin
+                        new FarmerListener(farmerStation,cookingStationGUI,job),
+                        plugin
                 );
-
-        job.setFoodBuffManager(
-                farmer
-        );
     }
 }
